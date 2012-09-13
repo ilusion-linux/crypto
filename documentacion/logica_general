@@ -1,0 +1,26 @@
+cripto
+
+Logica basica
+
+-Encriptar
+ Solicitar una contraseña para encriptar, tratar de buscar un secuenta para obtener, variables de encriptacion.
+
+ 1 posibilidad
+ obtener la suma binaria de la cadena, y aplicarle alguna operacion extra
+
+ 2 posibilidad
+ obtener diferentes sumas binarias de la cadena, de pareja en pareja, y la ultima individual en caso de ser
+ cadena impar.
+
+ Luego de tener las variables con las que se encriptara se aplicara la secuenta al archivo o archivos leidos.
+
+-Descriptar
+ Solicitar la contreseña de desencriptacion, con la cual se calcularan las variables de encriptacion de la misma
+ manera que en la fase de encriptacion.
+
+ Y se proceda a ser las operaciones inversar a la encriptacion para obtener el archivo o archivos ya desencriptados.
+
+ En ningun momento se compara la veracidad de la contraseña ingresada, ya que sin importa la contraseña se genera
+ el archivo ya descomprimido, pero solamente la contraseña correcta generara los datos correctos, esto deja sin
+ pauta a posibles ataques de fuerza bruta o al revelado de la contraseña dentro del mismo archivo.
+
