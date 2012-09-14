@@ -1,0 +1,45 @@
+Opciones de la linea de comandos
+
+-l directorio
+-a archivo
+-c password
+-e
+-d
+
+-l directorio
+indicia el directorio donde se encriptaran los archivos dentro del directorio o los directorios 
+separados por dos puntos.
+
+ejemplo:  -l "/home/user/documentos/"
+          -l "/home/user/documentos/proyectos/:/home/user/documentos/material/"
+
+-a archivo
+indica el directorio donde se encriptaran el archivo o los archivos listados, separados por
+dos puntos.
+
+ejemplo:  -a "/home/user/documentos/datos.odt"
+          -a "/home/user/documentos/datos.odt:/home/user/documentos/ganancia.ods"
+
+-c
+indica la contraseña utilizada para encriptar o desencriptar, con la unica condicion de que
+no debe incluir espacion
+
+ejemplo:  -c secreto360@
+          -c My_p@sS_2012
+
+-e
+parametro que indica que se debe encriptar los archivos o directorios listados.
+
+-d
+parametro que indica que se debe desencriptar los archivos od irectorios listados.
+
+
+ejemplos
+
+encriptar un archivo
+crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -e
+
+descencriptar un archivo
+crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -d
+
+OBSERVACION: los parametros -e y -d no pueden combinarse en una msima ejecucion de crypto.
