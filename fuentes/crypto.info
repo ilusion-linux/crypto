@@ -1,0 +1,79 @@
+------------------------------------------------------------------------
+                            crypto-0.01                       
+Programa para encriptar datos importantes de tu disco duro, protege tus
+datos de intrusos.
+
+
+Opciones disponibles
+-----------------------
+l directorio
+a archivo
+c password
+e encriptar
+d desencriptar
+i informacion
+
+
+l direcotrio
+Indicia el directorio donde se encriptaran los archivos dentro del
+directorio o los directorios separados por dos puntos.
+
+ejemplo:
+
+    l /home/user/documentos/
+	l /home/user/documentos/proyectos/:/home/user/documentos/material/
+	
+
+a archivo
+Indica el directorio donde se encriptaran el archivo o los archivos
+listados, separados por dos puntos.
+
+ejemplo:
+    a "/home/user/documentos/datos.odt"
+    a "/home/user/documentos/datos.odt:/home/user/documentos/ganancia.ods"
+ 
+    
+c
+Indica la contraseña utilizada para encriptar o desencriptar, con la
+unica condicion de que no contenja espacion en blanco.
+
+ejemplo:
+    c secreto360@
+	c My_p@sS_2012
+	
+	
+e
+Parametro que indica que se debe encriptar los archivos o directorios
+listados.
+
+
+
+d
+Parametro que indica que se debe desencriptar los archivos o directorios
+listados.
+
+
+Ejemplos
+
+Encriptar un archivo
+   
+    crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -e
+    
+    
+    
+Descencriptar un archivo
+
+	crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -d
+	
+	
+	
+OBSERVACION:
+Los parametros siempre se sobrescriben asi que si se utiliza dos veces
+el mismo valor, siempre el sera utilizado el ultimo valor.
+
+Si incluye la opcion i, para mostrar la informacion, todas las demas
+opciones ingresadas seran anuladas.
+
+
+
+                                                        by ilusion-linux

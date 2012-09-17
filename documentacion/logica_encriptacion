@@ -1,0 +1,70 @@
+crypto
+
+Se encriptara en base a la contraseña, en primer lugar se encontrara una valor basado en
+la contraseña ingresada.
+
+Obtener la resta de pares de bytes de la contraseña, y luego sumar los pares obtenidos.
+
+Ejemplo
+My_P@ssword
+
+byte a=(byte)M-(byte)y;
+byte b=(byte)_-(byte)P;
+byte c=(byte)@-(byte)s;
+byte d=(byte)s-(byte)w;
+... z
+
+byte clave=a+b+c+d+...z;
+
+int calves=xx;
+
+Luego se recorrera el archivo o archivos de byte a byte, e ir comparando bit a bit los claves obtenidas para
+operar segun el bit.
+
+byte pares
+  bit 0 suma
+  bit 1 resta
+
+byte impares
+  bit 0 resta
+  bit 1 suma
+
+
+Suma
+encriptacion
+byte_archivo+byte_clave
+
+si la suma es mayor de 256 solo se tomara en cuenta el exedente de 256, en caso contrari tomar la suma
+
+desencriptacion
+si la lectua es menor que el byte_clave, entonces
+
+byte_calve-byte_archivo
+
+se toma el resultado de esta resta y se opera, 256 - el valor obtenido, y asi obtendremos el valor original
+
+en caso contrario
+
+byte_archivo-byte_clave
+
+
+
+Resta
+encriptacion
+byte_archivo-byte_clave
+
+si el resultado es negativo entonces se tomara el valor absoluto, en cas contrario tomaremos el resultado
+de la operacion
+
+desencriptacion
+Si la lectura es mejor que el byte_clave, entonces
+
+byte_clave-byte_archivo
+
+en caso contrario
+
+byte_archivo+byte_clave
+
+
+
+
