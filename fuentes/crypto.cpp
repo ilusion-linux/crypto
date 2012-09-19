@@ -7,9 +7,12 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include "encriptador"
 
 using std::cout;
 using std::endl;
+
+Encriptador encriptador;
 
 int intOperacion; //Variable para almacenar tipo de operacion
 	//	0  encriptar
@@ -58,6 +61,7 @@ int main(int argC, char * argV[])
 				else if(strcasecmp(argV[x], "p")==0)
 				{
 					intEstado=1;
+					chrAuxiliar=&chrPassword;
 				}
 				else if(strcasecmp(argV[x], "e")==0)
 				{
