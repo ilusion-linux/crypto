@@ -7,10 +7,12 @@ datos de intrusos.
 Opciones disponibles
 -----------------------
 l directorio
-a archivo
 c password
 e encriptar
 d desencriptar
+h agregar extensiones para ignorar
+p imprime las extensiones ignoradas
+r resetear extensiones para ignorar
 i informacion
 
 
@@ -22,16 +24,7 @@ ejemplo:
 
     l /home/user/documentos/
 	l /home/user/documentos/proyectos/:/home/user/documentos/material/
-	
-
-a archivo
-Indica el directorio donde se encriptaran el archivo o los archivos
-listados, separados por dos puntos.
-
-ejemplo:
-    a "/home/user/documentos/datos.odt"
-    a "/home/user/documentos/datos.odt:/home/user/documentos/ganancia.ods"
- 
+	l /home/user/documentos/proyecto.odt:/home/user/documentos/tesis
     
 c
 Indica la contraseña utilizada para encriptar o desencriptar, con la
@@ -52,18 +45,49 @@ d
 Parametro que indica que se debe desencriptar los archivos o directorios
 listados.
 
+h
+Parametro que indicar los archivos que no se tomaran en cuenta basandose
+en su extension.  Varias extensiones deberian separarse por dos puntos.
+No deben haber espacios en esta cadena.
+
+ejemplo:
+
+	h .o:.bin:.mp3
+
+p
+Parametro para imprimir la lista de extensiones ignoradas.
+	
+r
+Parametro para resetear la lista de extensiones ignoradas.
+
 
 Ejemplos
 
 Encriptar un archivo
    
-    crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -e
+    crypto a /home/user/datos.odt -c My_p@sS_2012 e
     
     
     
 Descencriptar un archivo
 
-	crypto -a "/home/user/datos.odt" -c My_p@sS_2012 -d
+	crypto a /home/user/datos.odt -c My_p@sS_2012 d
+	
+	
+Agregar extensiones a ignorar
+	
+	crypto h .o:.bin:.mp3
+	
+	
+Resetear y leer extensiones ignoradas
+	cripto p
+	crypto r
+
+	
+Mostar Informacion
+	
+	crypto i
+	
 	
 	
 	
@@ -74,6 +98,10 @@ el mismo valor, siempre el sera utilizado el ultimo valor.
 Si incluye la opcion i, para mostrar la informacion, todas las demas
 opciones ingresadas seran anuladas.
 
+Las opciones de extensiones ignoradas tienen presedencia sobre las 
+opciones de encriptar y desencriptar, asi que aunque estas vaya de
+ultimo se ejecutaran antes, para poder tener la nueva informacion sobre
+las extensiones ingresada.
 
 
                                                         by ilusion-linux

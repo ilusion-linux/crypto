@@ -24,7 +24,6 @@ int intDir;//Variable para identificar si es directorio o documento
 		   
 char * chrPassword;//Variable que contiene la contraseña ingresada
 char * chrRuta;//Variable que contiene la ruta directorio
-char * chrArchivo;//Variable que contiene la ruta del archivo
 
 void mostarInformacion();
 /*
@@ -52,11 +51,6 @@ int main(int argC, char * argV[])
 				{
 					intEstado=1;
 					chrAuxiliar=&chrRuta;
-				}
-				else if(strcasecmp(argV[x], "a")==0)
-				{
-					intEstado=1;
-					chrAuxiliar=&chrArchivo;
 				}
 				else if(strcasecmp(argV[x], "p")==0)
 				{
@@ -91,9 +85,9 @@ int main(int argC, char * argV[])
 			break;
 			case 1:
 				if(strcasecmp(argV[x], "l")==0 || strcasecmp(argV[x],
-					"a")==0 || strcasecmp(argV[x], "p")==0 ||
-					strcasecmp(argV[x], "e")==0 || strcasecmp(argV[x],
-					"d")==0 || strcasecmp(argV[x], "i")==0)
+					"p")==0 || strcasecmp(argV[x], "e")==0 ||
+					strcasecmp(argV[x], "d")==0 || strcasecmp(argV[x],
+					"i")==0)
 				{
 					x=argC;
 					intEstado=-1;
