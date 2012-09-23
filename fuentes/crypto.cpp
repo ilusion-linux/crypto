@@ -42,9 +42,6 @@ int main(int argC, char * argV[])
 	char ** chrAuxiliar;//Variable tipo puntero a puntero, para
 		//referenciar el valor donde se almacenara algun parametro.
 						
-	
-	
-	//buscador.
 	cout<<"--------------------------------------"<<endl;
 	for(int x=1; x<argC; x++)
 	{
@@ -76,6 +73,10 @@ int main(int argC, char * argV[])
 					intOperacion=-1;
 					mostarInformacion();
 				}
+				else if(strcasecmp(argV[x], "h")==0)
+				{
+					intEstado=2;
+				}
 				else
 				{
 					cout<<"Error:"<<endl;
@@ -104,6 +105,10 @@ int main(int argC, char * argV[])
 					chrRuta=argV[x];
 					intEstado=0;
 				}
+			break;
+			case 2:
+				intEstado=0;
+				buscador.agregarIgnorados(argV[x]);
 			break;
 		}
 	}

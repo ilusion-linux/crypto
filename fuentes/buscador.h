@@ -9,6 +9,7 @@ class Buscador
 	public:
 		Buscador();
 		Buscador(char *);
+		void agregarIgnorados(char *);
 		
 	private:
 		struct ignorar
@@ -16,11 +17,11 @@ class Buscador
 			string extension;
 			struct extIgnorar * siguiente;
 		};
-		struct ignorar ignorados;
+		
+		struct ignorar * ignorados;
 		
 		void leerIgnorados();
 		void reiniciarIgnorados();
-		void agregarIgnorados(char *);
 		void agregarElementoLista(string);
 		void descomponer();
 };

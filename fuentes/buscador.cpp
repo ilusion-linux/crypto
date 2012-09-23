@@ -31,7 +31,7 @@ void Buscador::agregarIgnorados(char * ignorados)
 	
 	while(chrElementos!=NULL)
 	{
-		//agregarElementoLista(chrElementos);
+		agregarElementoLista(chrElementos);
 		cout<<chrElementos<<endl;
 		chrElementos=strtok(NULL, ":");
 	}
@@ -54,7 +54,24 @@ void Buscador::agregarIgnorados(char * ignorados)
 
 void Buscador::agregarElementoLista(string ignorado)
 {
-	
+	if(ignorados==NULL)
+	{
+		ignorados=new struct ignorar;
+		ignorados->extension=ignorado;
+		ignorados->siguiente=NULL;
+		
+		inicioIgnorados=ignorados;
+	}
+	else
+	{
+		struct ignorar * temp=ignorados;
+		
+		ignorados=new struct ignorados
+		ignorados->extension=ignorado;
+		ignorados->siguiente=NULL;
+		
+		temp->siguiente=ignorados;
+	}
 }
 
 void Buscador::descomponer()
