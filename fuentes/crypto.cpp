@@ -7,12 +7,13 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#include "encriptador"
+#include "buscador.h"
 
 using std::cout;
 using std::endl;
 
-Encriptador encriptador;
+//Encriptador encriptador;
+Buscador buscador;
 
 int intOperacion; //Variable para almacenar tipo de operacion
 	//	0  encriptar
@@ -42,6 +43,9 @@ int main(int argC, char * argV[])
 		//referenciar el valor donde se almacenara algun parametro.
 						
 	
+	
+	//buscador.
+	cout<<"--------------------------------------"<<endl;
 	for(int x=1; x<argC; x++)
 	{
 		switch(intEstado)
