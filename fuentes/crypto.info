@@ -22,7 +22,7 @@ directorio o los directorios separados por dos puntos.
 
 ejemplo:
 
-    l /home/user/documentos/
+	l /home/user/documentos/
 	l /home/user/documentos/proyectos/:/home/user/documentos/material/
 	l /home/user/documentos/proyecto.odt:/home/user/documentos/tesis
     
@@ -105,3 +105,4 @@ las extensiones ingresada.
 
 
                                                         by ilusion-linux
+------------------------------------------------------------------------

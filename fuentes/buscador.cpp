@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstring>
 #include "buscador.h"
 
 using std::cout;
@@ -7,49 +6,37 @@ using std::endl;
 
 Buscador::Buscador()
 {
-	
+	ignorados=NULL;
+	inicioIgnorados=NULL;
+	temporalIgnorados=NULL;
 }
-
-Buscador::Buscador(char * archivos)
+//Funciones publicas----------------------------------------------------
+void Buscador::agregarIgnorados(char * elementos)
 {
+	char * chrElementos;
 	
+	chrElementos=strtok(elementos, ":");
+	
+	while(chrElementos!=NULL)
+	{
+		agregarElementoLista(chrElementos);
+		chrElementos=strtok(NULL, ":");
+	}
+	
+	/*ignorados=inicioIgnorados;
+	while(ignorados!=NULL)
+	{
+		cout<<(ignorados->extension)<<endl;
+		ignorados=ignorados->siguiente;
+	}*/
 }
-
+//Funciones privadas----------------------------------------------------
 void Buscador::leerIgnorados()
 {
 }
 
 void Buscador::reiniciarIgnorados()
 {
-}
-
-void Buscador::agregarIgnorados(char * ignorados)
-{
-	char * chrElementos;
-	
-	chrElementos=strtok(ignorados, ":");
-	
-	while(chrElementos!=NULL)
-	{
-		agregarElementoLista(chrElementos);
-		cout<<chrElementos<<endl;
-		chrElementos=strtok(NULL, ":");
-	}
-	
-	
-	/*string temp="";
-	for(int x=0; x<strlen(ignorados); x++)
-	{
-		if(ignorados[x]=='.')
-		{
-			agregarElementoLista(temp);
-			temp="";
-		}
-		else
-		{
-			temp=temp+ignorados[x];
-		}
-	}*/
 }
 
 void Buscador::agregarElementoLista(string ignorado)
@@ -61,16 +48,16 @@ void Buscador::agregarElementoLista(string ignorado)
 		ignorados->siguiente=NULL;
 		
 		inicioIgnorados=ignorados;
+		temporalIgnorados=ignorados;
 	}
 	else
-	{
-		struct ignorar * temp=ignorados;
-		
-		ignorados=new struct ignorados
+	{	
+		ignorados=new struct ignorar;
 		ignorados->extension=ignorado;
 		ignorados->siguiente=NULL;
 		
-		temp->siguiente=ignorados;
+		temporalIgnorados->siguiente=ignorados;
+		temporalIgnorados=ignorados;
 	}
 }
 
