@@ -1,7 +1,6 @@
-------------------------------------------------------------------------
-                            crypto-0.01                       
-Programa para encriptar datos importantes de tu disco duro, protege tus
-datos de intrusos.
+--------------------------------------------------------------------------------------------------------------------------------
+crypto-0.01
+Programa para encriptar datos importantes de tu disco duro, protege tus datos de intrusos.
 
 
 Opciones disponibles
@@ -17,8 +16,7 @@ i informacion
 
 
 l direcotrio
-Indicia el directorio donde se encriptaran los archivos dentro del
-directorio o los directorios separados por dos puntos.
+Indicia el directorio donde se encriptaran los archivos dentro del directorio o los directorios separados por dos puntos.
 
 ejemplo:
 
@@ -27,8 +25,7 @@ ejemplo:
 	l /home/user/documentos/proyecto.odt:/home/user/documentos/tesis
     
 c
-Indica la contraseña utilizada para encriptar o desencriptar, con la
-unica condicion de que no contenja espacion en blanco.
+Indica la contraseña utilizada para encriptar o desencriptar, con la unica condicion de que no contenja espacion en blanco.
 
 ejemplo:
     c secreto360@
@@ -36,18 +33,15 @@ ejemplo:
 	
 	
 e
-Parametro que indica que se debe encriptar los archivos o directorios
-listados.
+Parametro que indica que se debe encriptar los archivos o directorios listados.
 
 
 
 d
-Parametro que indica que se debe desencriptar los archivos o directorios
-listados.
+Parametro que indica que se debe desencriptar los archivos o directorios listados.
 
 h
-Parametro que indicar los archivos que no se tomaran en cuenta basandose
-en su extension.  Varias extensiones deberian separarse por dos puntos.
+Parametro que indicar los archivos que no se tomaran en cuenta basandose en su extension.  Varias extensiones deberian separarse por dos puntos.
 No deben haber espacios en esta cadena.
 
 ejemplo:
@@ -92,17 +86,15 @@ Mostar Informacion
 	
 	
 OBSERVACION:
-Los parametros siempre se sobrescriben asi que si se utiliza dos veces
-el mismo valor, siempre el sera utilizado el ultimo valor.
+Los parametros siempre se sobrescriben asi que si se utiliza dos veces el mismo valor, siempre el sera utilizado el ultimo valor.
 
-Si incluye la opcion i, para mostrar la informacion, todas las demas
-opciones ingresadas seran anuladas.
+Si incluye la opcion i, para mostrar la informacion, todas las demas opciones ingresadas seran anuladas.
 
-Las opciones de extensiones ignoradas tienen presedencia sobre las 
-opciones de encriptar y desencriptar, asi que aunque estas vaya de
-ultimo se ejecutaran antes, para poder tener la nueva informacion sobre
-las extensiones ingresada.
+Las opciones de extensiones ignoradas tienen presedencia sobre las opciones de encriptar y desencriptar, asi que aunque estas vaya de
+ultimo se ejecutaran antes, para poder tener la nueva informacion sobre las extensiones ingresada.
 
 
-                                                        by ilusion-linux
-------------------------------------------------------------------------
+
+
+                                                                                                                by ilusion-linux
+--------------------------------------------------------------------------------------------------------------------------------

@@ -28,7 +28,7 @@ char * chrRuta;//Variable que contiene la ruta directorio
 void mostarInformacion();
 /*
  * Funcion para mostrar caracteristicas del programa, asi como las 
- * diferentes opciones que este permite.
+ * diferentes opciones que este permite
  * */
 
 int main(int argC, char * argV[])
@@ -42,7 +42,7 @@ int main(int argC, char * argV[])
 		parametro o un valor de parametro*/
 	
 	char ** chrAuxiliar;/*Variable tipo puntero a puntero, para
-		referenciar el valor donde se almacenara algun parametro.*/
+		referenciar el valor donde se almacenara algun parametro*/
 						
 	cout<<"--------------------------------------"<<endl;
 	for(int x=1; x<argC; x++)

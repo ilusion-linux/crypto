@@ -1,8 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include "buscador.h"
 
 using std::cout;
 using std::endl;
+using std::ios;
+using std::ofstream;
 
 Buscador::Buscador()
 {
@@ -13,13 +16,15 @@ Buscador::Buscador()
 //Funciones publicas----------------------------------------------------
 void Buscador::agregarIgnorados(char * elementos)
 {
-	char * chrElementos;
+	ofstream archivoIgnorados("ignorados.crypto", ios::app);
 	
+	char * chrElementos;
 	chrElementos=strtok(elementos, ":");
 	
 	while(chrElementos!=NULL)
 	{
-		agregarElementoLista(chrElementos);
+		//agregarElementoLista(chrElementos);
+		archivoIgnorados<<chrElementos<<endl;
 		chrElementos=strtok(NULL, ":");
 	}
 	
@@ -39,7 +44,7 @@ void Buscador::reiniciarIgnorados()
 {
 }
 
-void Buscador::agregarElementoLista(string ignorado)
+void Buscador::agregarElementoIgnorado(string ignorado)
 {
 	if(ignorados==NULL)
 	{
@@ -59,6 +64,10 @@ void Buscador::agregarElementoLista(string ignorado)
 		temporalIgnorados->siguiente=ignorados;
 		temporalIgnorados=ignorados;
 	}
+}
+
+void Buscador::agregarElementoDirectorio(string ignorado)
+{
 }
 
 void Buscador::descomponer()
