@@ -79,6 +79,10 @@ int main(int argC, char * argV[])
 				{
 					intEstado=2;
 				}
+				else if(strcasecmp(argV[x], "x")==0)
+				{
+					buscador.leerIgnorados();
+				}
 				else
 				{
 					cout<<"Error:"<<endl;

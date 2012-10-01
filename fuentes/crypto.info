@@ -9,6 +9,7 @@ l directorio
 c password
 e encriptar
 d desencriptar
+x lee las extensiones
 h agregar extensiones para ignorar
 p imprime las extensiones ignoradas
 r resetear extensiones para ignorar
