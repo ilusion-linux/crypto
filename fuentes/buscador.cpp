@@ -8,9 +8,8 @@ using std::ios;
 using std::ofstream;
 using std::ifstream;
 
-Buscador::Buscador()
+Buscador::Buscador()                                                    //Inicializacion de estructuras en NULL
 {
-	//Inicializacion de estructuras en NULL
 	ignorados=NULL;
 	inicioIgnorados=NULL;
 	temporalIgnorados=NULL;
@@ -18,22 +17,14 @@ Buscador::Buscador()
 //Funciones publicas----------------------------------------------------
 void Buscador::agregarIgnorados(char * elementos)
 {
-	ofstream archivoIgnorados("ignorados.crypto", ios::app);/*Apertura 
-		de archivo en modo escritura, de manera concatenada*/
+	ofstream archivoIgnorados("ignorados.crypto", ios::app);            //Apertura de archivo en modo escritura, de manera concatenada
+	char * chrElementos;                                                //Variable para almacenar las diferentes extensiones que seran agregadas al archivo
+	chrElementos=strtok(elementos, ":");                                //Funcion que strtok, que separa en token la cadena, tomando como elemento separador :
 	
-	char * chrElementos;/*Variable para almacenar las diferentes
-		extensiones que seran agregadas al archivo*/
-		
-	chrElementos=strtok(elementos, ":");/*Funcion que strtok, que separa
-		en token la cadena, tomando como elemento separador : */
-	
-	while(chrElementos!=NULL)//Mientas tengamos extensiones validos
+	while(chrElementos!=NULL)                                           //Mientas tengamos extensiones validos
 	{
-		archivoIgnorados<<chrElementos<<endl;/*Escritura en archivo, se
-			escribe la extencion y un salto de linea*/
-			
-		chrElementos=strtok(NULL, ":");/*Se vuelve a llama a la funcion
-			strtok, para obtener la siguiente extension*/
+		archivoIgnorados<<chrElementos<<endl;                           //Escritura en archivo, se escribe la extencion y un salto de linea
+		chrElementos=strtok(NULL, ":");                                 //Se vuelve a llama a la funcion strtok, para obtener la siguiente extension
 	}
 	
 	archivoIgnorados.close();
@@ -92,6 +83,7 @@ bool Buscador::extensionUnica(string ignorado)
 		{
 			return false;
 		}
+		temporalIgnorados=temporalIgnorados->siguiente;
 	}
 	return true;
 }

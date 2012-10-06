@@ -12,39 +12,21 @@
 using std::cout;
 using std::endl;
 
-//Encriptador encriptador;
+int intOperacion;                                                       //Variable para almacenar tipo de operacion= 0  encriptar, 1  desencriptar
+int intDir;                                                             //Variable para identificar si es directorio o documento= 0  directorios,  1  archivos
+char * chrPassword;                                                     //Variable que contiene la contraseña ingresada
+char * chrRuta;                                                         //Variable que contiene la ruta directorio
 
-int intOperacion;/*Variable para almacenar tipo de operacion
-	0  encriptar
-	1  desencriptar*/
-				  
-int intDir;/*Variable para identificar si es directorio o documento
-	0  directorios
-	1  archivos*/
-		   
-char * chrPassword;//Variable que contiene la contraseña ingresada
-char * chrRuta;//Variable que contiene la ruta directorio
-
-void mostarInformacion();
-/*
- * Funcion para mostrar caracteristicas del programa, asi como las 
- * diferentes opciones que este permite
- * */
+void mostarInformacion();                                               //Funcion para mostrar caracteristicas del programa, asi como las diferentes opciones que este permite
 
 int main(int argC, char * argV[])
 {
-	intOperacion=-1;/*Variable utilizada para indicar el tipo de
-		operacion a realizar*/
-	
-	Buscador buscador;//Variable tipo clase Buscador
-	
-	int intEstado=0;/*Variable para analizar si se esta leendo un
-		parametro o un valor de parametro*/
-	
-	char ** chrAuxiliar;/*Variable tipo puntero a puntero, para
-		referenciar el valor donde se almacenara algun parametro*/
-						
 	cout<<"--------------------------------------"<<endl;
+	intOperacion=-1;                                                    //Variable utilizada para indicar el tipo de operacion a realizar
+	Buscador buscador;                                                  //Variable tipo clase Buscador
+	int intEstado=0;                                                    //Variable para analizar si se esta leendo un parametro o un valor de parametro
+	char ** chrAuxiliar;                                                //Variable tipo puntero a puntero, para referenciar el valor donde se almacenara algun parametro
+	
 	for(int x=1; x<argC; x++)
 	{
 		switch(intEstado)
@@ -138,5 +120,5 @@ int main(int argC, char * argV[])
 
 void mostarInformacion()
 {
-	system("more crypto.info");
+	system("more info.crypto");                                         //Llamada al sistema, para mostrar la informacion del archivo info.crypto
 }
