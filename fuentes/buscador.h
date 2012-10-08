@@ -10,6 +10,7 @@ class Buscador
 		Buscador();                                                     //Constructor de la clase
 		void agregarIgnorados(char *);                                  //Funcion para agregar extensiones a ignorar
 		void leerIgnorados();                                           //Funcion para leer las extensiones guardadas, que no seran tomadas en cuenta
+		void reiniciarIgnorados();                                      //Funcion para reiniciar el listado de extensiones ignoradas
 		
 	private:
 		struct ignorar                                                  //Estructura para almacenar el listado de extensones guardadas que seran ignoradas
@@ -33,7 +34,6 @@ class Buscador
 		bool extensionUnica(string);                                    //Funcion para comprobar que no hay extensiones repetidas
 		void agregarElementoIgnorado(string);                           //Funcion para agregar elementos a la lista enlazada de extensiones ignoradas
 		void agregarElementoDirectorio(string);                         //Funcion para agregar elementos a la lista enlazada de directorios a cifrar o decifrar
-		void reiniciarIgnorados();                                      //Funcion para reiniciar el listado de extensiones ignoradas
 		void descomponer();                                             //Funcion para buscar recursivamente los documentos listados dentro algun directorio indicado
 };
 #endif

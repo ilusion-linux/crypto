@@ -31,21 +31,39 @@ void Buscador::agregarIgnorados(char * elementos)
 	leerIgnorados();
 	
 }
+void Buscador::reiniciarIgnorados()
+{
+	ofstream archivoIgnorados("ignorados.crypto", ios::out);            //Apertura de archivo en modo escritura, de manera de vaciado.
+	archivoIgnorados.close();
+	ignorados=NULL;
+	inicioIgnorados=NULL;
+	temporalIgnorados=NULL;
+}
 //Funciones privadas----------------------------------------------------
 void Buscador::leerIgnorados()
 {
-	ifstream archivoIgnorados("ignorados.crypto", ios::in);
+	ifstream archivoIgnorados("ignorados.crypto", ios::in);             //Apertura de archivo en modo lectura
+	string extensiones;                                                 //Variable temporal para la lectura de las extensiones
 	
-	string extensiones;
 	while(archivoIgnorados>>extensiones)
 	{
-		if(extensionUnica(extensiones)==true)
-		{
+		if(extensionUnica(extensiones)==true)                           //Se compara una a una las extensiones guardadas y si no ha sido ya leida se procede a
+		{                                                               //guardar en una lista enlazada
 			agregarElementoIgnorado(extensiones);
 		}
 	}
 	
 	archivoIgnorados.close();
+	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          //Apertura de archivo en modo escritura, de manera de vaciado.
+	temporalIgnorados=inicioIgnorados;                                  //Se recorre la lista enalazada creada con las extensiones sin repetir para guardar las
+	                                                                    //sin ninguna repetecion en el archivo.
+	while(temporalIgnorados!=NULL)
+	{
+		ignoradosGuardados<<temporalIgnorados->extension<<endl;
+		temporalIgnorados=temporalIgnorados->siguiente;
+	}
+	
+	ignoradosGuardados.close();
 }
 
 void Buscador::agregarElementoIgnorado(string ignorado)
@@ -76,20 +94,19 @@ void Buscador::agregarElementoDirectorio(string ignorado)
 
 bool Buscador::extensionUnica(string ignorado)
 {
-	temporalIgnorados=inicioIgnorados;
-	while(temporalIgnorados!=NULL)
+	struct ignorar * auxIgnorados=inicioIgnorados;
+	
+	while(auxIgnorados!=NULL)
 	{
-		if(ignorado.compare(temporalIgnorados->extension)==0)
+		if(ignorado.compare(auxIgnorados->extension)==0)
 		{
 			return false;
 		}
-		temporalIgnorados=temporalIgnorados->siguiente;
+		
+		auxIgnorados=auxIgnorados->siguiente;
 	}
+	
 	return true;
-}
-
-void Buscador::reiniciarIgnorados()
-{
 }
 
 void Buscador::descomponer()
