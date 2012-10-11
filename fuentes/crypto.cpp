@@ -3,6 +3,7 @@
  * Programa encriptador
  * 
  * autor ilusion-linux
+ * email ilusion.linux@gmail.com
  * */
 #include <iostream>
 #include <cstring>

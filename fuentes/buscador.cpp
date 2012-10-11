@@ -39,6 +39,10 @@ void Buscador::reiniciarIgnorados()
 	inicioIgnorados=NULL;
 	temporalIgnorados=NULL;
 }
+void Buscador::descomponer()
+{
+	
+}
 //Funciones privadas----------------------------------------------------
 void Buscador::leerIgnorados()
 {
@@ -107,9 +111,4 @@ bool Buscador::extensionUnica(string ignorado)
 	}
 	
 	return true;
-}
-
-void Buscador::descomponer()
-{
-	
 }
