@@ -46,7 +46,8 @@ int main(int argC, char * argV[])
 				}
 				else if(strcasecmp(argV[x], "d")==0)
 				{
-					intOperacion=1;
+					intEstado=3;
+					intOperacion=2;
 				}
 				else if(strcasecmp(argV[x], "x")==0)
 				{
@@ -104,6 +105,10 @@ int main(int argC, char * argV[])
 			case 2:
 				intEstado=0;
 				buscador.agregarIgnorados(argV[x]);
+			break;
+			case 3:
+				intEstado=0;
+				buscador.descomponer(argV[x]);
 			break;
 		}
 	}

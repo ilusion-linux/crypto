@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
 #include "buscador.h"
 
 using std::cout;
@@ -21,10 +24,10 @@ void Buscador::agregarIgnorados(char * elementos)
 	char * chrElementos;                                                //Variable para almacenar las diferentes extensiones que seran agregadas al archivo
 	chrElementos=strtok(elementos, ":");                                //Funcion que strtok, que separa en token la cadena, tomando como elemento separador :
 	
-	while(chrElementos!=NULL)                                           //Mientas tengamos extensiones validos
+	while(chrElementos!=NULL)                                           
 	{
-		archivoIgnorados<<chrElementos<<endl;                           //Escritura en archivo, se escribe la extencion y un salto de linea
-		chrElementos=strtok(NULL, ":");                                 //Se vuelve a llama a la funcion strtok, para obtener la siguiente extension
+		archivoIgnorados<<chrElementos<<endl;                           
+		chrElementos=strtok(NULL, ":");                                 
 	}
 	
 	archivoIgnorados.close();
@@ -39,9 +42,16 @@ void Buscador::reiniciarIgnorados()
 	inicioIgnorados=NULL;
 	temporalIgnorados=NULL;
 }
-void Buscador::descomponer()
+void Buscador::descomponer(char * elementos)
 {
+	char * chrElementos;                                                
+	chrElementos=strtok(elementos, ":"); 
 	
+	while(chrElementos!=NULL)                                           
+	{
+		obtenerDirectorio(chrElementos);
+		chrElementos=strtok(NULL, ":");                                 
+	}
 }
 //Funciones privadas----------------------------------------------------
 void Buscador::leerIgnorados()
@@ -111,4 +121,24 @@ bool Buscador::extensionUnica(string ignorado)
 	}
 	
 	return true;
+}
+
+void Buscador::obtenerDirectorio(char * directorio)
+{
+	DIR * dir=opendir(directorio);
+	
+	if(dir)
+	{
+		struct dirent * listado;
+		while((listado=readdir(dir))!=NULL)
+		{
+			cout<<listado->d_name<<endl;
+		}
+		
+		closedir(dir);
+	}
+	else
+	{
+		cout<<"Directorio invalido"<<endl;
+	}
 }
