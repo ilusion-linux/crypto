@@ -132,7 +132,14 @@ void Buscador::obtenerDirectorio(char * directorio)
 		struct dirent * listado;
 		while((listado=readdir(dir))!=NULL)
 		{
-			cout<<listado->d_name<<endl;
+			char * elemento=listado->d_name;
+			if(strcmp(elemento, ".")!=0 && strcmp(elemento, "..")!=0)
+			{
+				struct stat atributos;
+				
+				//if(stat(
+				cout<<directorio<<"/"<<elemento<<endl;
+			}
 		}
 		
 		closedir(dir);
