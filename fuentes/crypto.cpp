@@ -5,9 +5,9 @@
  * autor ilusion-linux
  * email ilusion.linux@gmail.com
  * */
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
+#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
+#include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
+#include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "buscador.h"
 
 using std::cout;
@@ -32,7 +32,7 @@ int main(int argC, char * argV[])
 		switch(intEstado)
 		{
 			case 0:
-				if(strcasecmp(argV[x], "l")==0)
+				if(strcasecmp(argV[x], "l")==0)                         //Opcion para 
 				{
 					intEstado=1;
 					chrAuxiliar=&chrRuta;

@@ -20,16 +20,16 @@ Buscador::Buscador()                                                    //Inicia
 	temporalDirectorios=NULL;
 }
 //Funciones publicas----------------------------------------------------
-void Buscador::agregarIgnorados(char * elementos)
+void Buscador::agregarIgnorados(char * elementos)                       //Funcnion que recibe como parametro una lista con las diferentes extensiones a agregar
 {
 	ofstream archivoIgnorados("ignorados.crypto", ios::app);            
 	char * chrElementos;                                                
-	chrElementos=strtok(elementos, ":");                                
-	
+	chrElementos=strtok(elementos, ":");                                //Con la funcion strtok se van a obtener los token de la cadena recibida utilizando
+	                                                                    //como caracter separador el caracter ":"
 	while(chrElementos!=NULL)                                           
 	{
-		archivoIgnorados<<chrElementos<<endl;                           
-		chrElementos=strtok(NULL, ":");                                 
+		archivoIgnorados<<chrElementos<<endl;                           //Se procede a guardar una a una las extensiones obtenidas dentro del archivo
+		chrElementos=strtok(NULL, ":");                                 //ignorados.crypto
 	}
 	
 	archivoIgnorados.close();
@@ -37,8 +37,8 @@ void Buscador::agregarIgnorados(char * elementos)
 	
 }
 
-void Buscador::reiniciarIgnorados()
-{
+void Buscador::reiniciarIgnorados()                                     //Funcion para reiniciar el contenido del archivo ingorados.crypto y resetear
+{                                                                       //las listas de la estructura ignorado
 	ofstream archivoIgnorados("ignorados.crypto", ios::out);            
 	archivoIgnorados.close();
 	ignorados=NULL;
@@ -46,30 +46,30 @@ void Buscador::reiniciarIgnorados()
 	temporalIgnorados=NULL;
 }
 
-void Buscador::descomponer(char * elementos)
-{
+void Buscador::descomponer(char * elementos)                            //Funcion que recibe como parametro una lista con los directorios que se agregaran
+{                                                                       //para trabjar
 	char * chrElementos;                                                
-	chrElementos=strtok(elementos, ":"); 
-	
+	chrElementos=strtok(elementos, ":");                                //Con la funcion strtok se van a obtener los token de la cadena recibida utilizando
+	                                                                    //como caracter separador el caracter ":"
 	while(chrElementos!=NULL)                                           
 	{
-		obtenerDirectorio(chrElementos);
+		obtenerDirectorio(chrElementos);                                
 		chrElementos=strtok(NULL, ":");                                 
 	}
 }
 
-struct Buscador::directorio * Buscador::darElementos()
+struct Buscador::directorio * Buscador::darElementos()                  //Funcion que retorna la direccion inicial de la estructura directorio
 {
 	return inicioDirectorios;
 }
 //Funciones privadas----------------------------------------------------
-void Buscador::leerIgnorados()
-{
+void Buscador::leerIgnorados()                                          //Funcion para obtener el listado de extensiones guardadas en el archivo
+{                                                                       //ignorados.crypto
 	ifstream archivoIgnorados("ignorados.crypto", ios::in);             
 	string extensiones;                                                 
 	
-	while(archivoIgnorados>>extensiones)
-	{
+	while(archivoIgnorados>>extensiones)                                //Se recorre el archivo extension por extension y se compara que esta
+	{                                                                   //no se encuentre repetida
 		if(extensionUnica(extensiones)==true)                           
 		{                                                               
 			agregarElementoIgnorado(extensiones);
@@ -77,8 +77,8 @@ void Buscador::leerIgnorados()
 	}
 	
 	archivoIgnorados.close();
-	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          
-	temporalIgnorados=inicioIgnorados;                                  
+	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          //Se procede a guardar la lista obtenida, dentro del mismo archivo, ya que
+	temporalIgnorados=inicioIgnorados;                                  //esta no cuenta con ningun elemento repetido
 	                                                                    
 	while(temporalIgnorados!=NULL)
 	{
@@ -89,9 +89,9 @@ void Buscador::leerIgnorados()
 	ignoradosGuardados.close();
 }
 
-void Buscador::agregarElementoIgnorado(string ignorado)
-{
-	if(ignorados==NULL)
+void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcion que recibe un paramatro, que es una extension, para agregarle en su
+{                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
+	if(ignorados==NULL)                                                 //lista dinamica
 	{
 		ignorados=new struct ignorar;
 		ignorados->extension=ignorado;
@@ -111,9 +111,9 @@ void Buscador::agregarElementoIgnorado(string ignorado)
 	}
 }
 
-void Buscador::agregarElementoDirectorio(string elemento)
-{
-	if(directorios==NULL)
+void Buscador::agregarElementoDirectorio(string elemento)               //Funcion que recibe un paramatro, que es una elemento de un directorio, para 
+{                                                                       //agregarle en su repectiva lista enlazada.  Esta funcion gestiona la creacion 
+	if(directorios==NULL)                                               //y enlaze de la lista dinamica
 	{
 		directorios=new struct directorio;
 		directorios->objeto=elemento;
@@ -133,8 +133,8 @@ void Buscador::agregarElementoDirectorio(string elemento)
 	}
 }
 
-bool Buscador::extensionUnica(string ignorado)
-{
+bool Buscador::extensionUnica(string ignorado)                          //Funcion que recibe un parametro, que esuna extension, para determinar es es una
+{                                                                       //una extension unica, o ya se encuentra en la lista enlazada
 	struct ignorar * auxIgnorados=inicioIgnorados;
 	
 	while(auxIgnorados!=NULL)
@@ -150,9 +150,9 @@ bool Buscador::extensionUnica(string ignorado)
 	return true;
 }
 
-bool Buscador::extensionValida(string obj)
-{
-	int iPunto=obj.find_last_of(".");
+bool Buscador::extensionValida(string obj)                              //Funcion que recibe un parametro, que es un elemento del directorio a trabajar
+{                                                                       //para determinar que este elemento no contenga una extension de las agregadas
+	int iPunto=obj.find_last_of(".");                                   //como extensiones a ignorar
 	
 	if(iPunto!=string::npos)
 	{
@@ -162,34 +162,33 @@ bool Buscador::extensionValida(string obj)
 	return true;
 }
 
-void Buscador::obtenerDirectorio(string path)
-{
-	DIR * dir=opendir(path.c_str());
+void Buscador::obtenerDirectorio(string path)                           //Funcion que recibe un parametro, que es un directorio, y se determinaran todos
+{                                                                       //los elementos de ese directorio
+	DIR * dir=opendir(path.c_str());                                    //Se abre el directorio recibido
 	
-	if(dir)
+	if(dir)                                                             //Si dir se abrio correctamente
 	{
-		struct dirent * listado;
+		struct dirent * listado;                                        //Creamos un puntero a la estructura dirent
 		
-		while((listado=readdir(dir))!=NULL)
+		while((listado=readdir(dir))!=NULL)                             //Recorremos uno a uno los elementos del directorio abierto
 		{
-			char * elemento=listado->d_name;
+			char * elemento=listado->d_name;                            
 			
-			if(strcmp(elemento, ".")!=0 && strcmp(elemento, "..")!=0)
-			{
-				struct stat atributos;
-				string aux=path+"/"+string(listado->d_name);
+			if(strcmp(elemento, ".")!=0 && strcmp(elemento, "..")!=0)   //Determinados que cada elemento no sean ni "." ni "..", los cuales pertenecen a cada
+			{                                                           //directorio de los sistemas UNIX y Linux
+				struct stat atributos;                                  //Se crea una estructura tipo stat, para contener informacion sobre cada elemento
+				string aux=path+"/"+string(listado->d_name);            //Unimos el directorio con el nombre del elemento, para obtener direcciones completas
 				
-				if(stat(aux.c_str(), &atributos)==0)
+				if(stat(aux.c_str(), &atributos)==0)                    //Con la funcion stat se obtienen los atributos del elemento del directorio listado
 				{
-					if(S_ISDIR(atributos.st_mode))
-					{
+					if(S_ISDIR(atributos.st_mode))                      //Si el elemento es un directo se utiliza la recursividad, para volver a buscar dentro
+					{                                                   //del nuevo directorio, llamando a esta misma funcion
 						obtenerDirectorio(aux);
 					}
-					else
-					{
+					else                                                //Si el elemento listado no es un directorio, se comprueba que no sea un elemento con
+					{                                                   //una extension invalida, y se agrega al lista de directorios
 						if(extensionValida(aux)==true)
 						{
-							cout<<aux<<endl;
 							agregarElementoDirectorio(aux);
 						}
 					}
