@@ -1,6 +1,6 @@
 #ifndef BUSCADOR_H
 #define BUSCADOR_H
-#include <cstring>
+#include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
 
 using std::string;
 
@@ -25,7 +25,7 @@ class Buscador
 		
 		struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{
-			string directorios;
+			string objeto;
 			struct directorio * siguiente;
 		};
 		struct directorio * inicioDirectorios;                          //Estructutas de directorio a punteros, para manejar las listas enlzadas
@@ -33,8 +33,12 @@ class Buscador
 		struct directorio * temporalDirectorios;
 		
 		bool extensionUnica(string);                                    //Funcion para comprobar que no hay extensiones repetidas
+		bool extensionValida(string);									//Funcion para comprobar que el archivo contiene una extension valida
 		void agregarElementoIgnorado(string);                           //Funcion para agregar elementos a la lista enlazada de extensiones ignoradas
 		void agregarElementoDirectorio(string);                         //Funcion para agregar elementos a la lista enlazada de directorios a cifrar o decifrar
-		void obtenerDirectorio(char *);                                 //Funcion para obtener el listado de archivos de un directorio
+		void obtenerDirectorio(string);                                 //Funcion para obtener el listado de archivos de un directorio
+	
+	public:
+		struct directorio * darElementos();                             //Funcion para obtener los elementos a trabajar
 };
 #endif

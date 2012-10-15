@@ -1,8 +1,7 @@
-#include <iostream>
-#include <fstream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
+#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
+#include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
+#include <sys/stat.h>                                                   //Biblioteca stat con funciones para obtencion de atributos de directorios y archivos
+#include <dirent.h>                                                     //Biblioteca con funciones para manejo de directorios
 #include "buscador.h"
 
 using std::cout;
@@ -16,13 +15,16 @@ Buscador::Buscador()                                                    //Inicia
 	ignorados=NULL;
 	inicioIgnorados=NULL;
 	temporalIgnorados=NULL;
+	directorios=NULL;
+	inicioDirectorios=NULL;
+	temporalDirectorios=NULL;
 }
 //Funciones publicas----------------------------------------------------
 void Buscador::agregarIgnorados(char * elementos)
 {
-	ofstream archivoIgnorados("ignorados.crypto", ios::app);            //Apertura de archivo en modo escritura, de manera concatenada
-	char * chrElementos;                                                //Variable para almacenar las diferentes extensiones que seran agregadas al archivo
-	chrElementos=strtok(elementos, ":");                                //Funcion que strtok, que separa en token la cadena, tomando como elemento separador :
+	ofstream archivoIgnorados("ignorados.crypto", ios::app);            
+	char * chrElementos;                                                
+	chrElementos=strtok(elementos, ":");                                
 	
 	while(chrElementos!=NULL)                                           
 	{
@@ -34,14 +36,16 @@ void Buscador::agregarIgnorados(char * elementos)
 	leerIgnorados();
 	
 }
+
 void Buscador::reiniciarIgnorados()
 {
-	ofstream archivoIgnorados("ignorados.crypto", ios::out);            //Apertura de archivo en modo escritura, de manera de vaciado.
+	ofstream archivoIgnorados("ignorados.crypto", ios::out);            
 	archivoIgnorados.close();
 	ignorados=NULL;
 	inicioIgnorados=NULL;
 	temporalIgnorados=NULL;
 }
+
 void Buscador::descomponer(char * elementos)
 {
 	char * chrElementos;                                                
@@ -53,24 +57,29 @@ void Buscador::descomponer(char * elementos)
 		chrElementos=strtok(NULL, ":");                                 
 	}
 }
+
+struct Buscador::directorio * Buscador::darElementos()
+{
+	return inicioDirectorios;
+}
 //Funciones privadas----------------------------------------------------
 void Buscador::leerIgnorados()
 {
-	ifstream archivoIgnorados("ignorados.crypto", ios::in);             //Apertura de archivo en modo lectura
-	string extensiones;                                                 //Variable temporal para la lectura de las extensiones
+	ifstream archivoIgnorados("ignorados.crypto", ios::in);             
+	string extensiones;                                                 
 	
 	while(archivoIgnorados>>extensiones)
 	{
-		if(extensionUnica(extensiones)==true)                           //Se compara una a una las extensiones guardadas y si no ha sido ya leida se procede a
-		{                                                               //guardar en una lista enlazada
+		if(extensionUnica(extensiones)==true)                           
+		{                                                               
 			agregarElementoIgnorado(extensiones);
 		}
 	}
 	
 	archivoIgnorados.close();
-	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          //Apertura de archivo en modo escritura, de manera de vaciado.
-	temporalIgnorados=inicioIgnorados;                                  //Se recorre la lista enalazada creada con las extensiones sin repetir para guardar las
-	                                                                    //sin ninguna repetecion en el archivo.
+	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          
+	temporalIgnorados=inicioIgnorados;                                  
+	                                                                    
 	while(temporalIgnorados!=NULL)
 	{
 		ignoradosGuardados<<temporalIgnorados->extension<<endl;
@@ -102,8 +111,26 @@ void Buscador::agregarElementoIgnorado(string ignorado)
 	}
 }
 
-void Buscador::agregarElementoDirectorio(string ignorado)
+void Buscador::agregarElementoDirectorio(string elemento)
 {
+	if(directorios==NULL)
+	{
+		directorios=new struct directorio;
+		directorios->objeto=elemento;
+		directorios->siguiente=NULL;
+		
+		inicioDirectorios=directorios;
+		temporalDirectorios=directorios;
+	}
+	else
+	{
+		directorios=new struct directorio;
+		directorios->objeto=elemento;
+		directorios->siguiente=NULL;
+		
+		temporalDirectorios->siguiente=directorios;
+		temporalDirectorios=directorios;
+	}
 }
 
 bool Buscador::extensionUnica(string ignorado)
@@ -123,22 +150,50 @@ bool Buscador::extensionUnica(string ignorado)
 	return true;
 }
 
-void Buscador::obtenerDirectorio(char * directorio)
+bool Buscador::extensionValida(string obj)
 {
-	DIR * dir=opendir(directorio);
+	int iPunto=obj.find_last_of(".");
+	
+	if(iPunto!=string::npos)
+	{
+		return extensionUnica(obj.substr(iPunto, obj.length()));
+	}
+	
+	return true;
+}
+
+void Buscador::obtenerDirectorio(string path)
+{
+	DIR * dir=opendir(path.c_str());
 	
 	if(dir)
 	{
 		struct dirent * listado;
+		
 		while((listado=readdir(dir))!=NULL)
 		{
 			char * elemento=listado->d_name;
+			
 			if(strcmp(elemento, ".")!=0 && strcmp(elemento, "..")!=0)
 			{
 				struct stat atributos;
+				string aux=path+"/"+string(listado->d_name);
 				
-				//if(stat(
-				cout<<directorio<<"/"<<elemento<<endl;
+				if(stat(aux.c_str(), &atributos)==0)
+				{
+					if(S_ISDIR(atributos.st_mode))
+					{
+						obtenerDirectorio(aux);
+					}
+					else
+					{
+						if(extensionValida(aux)==true)
+						{
+							cout<<aux<<endl;
+							agregarElementoDirectorio(aux);
+						}
+					}
+				}
 			}
 		}
 		
