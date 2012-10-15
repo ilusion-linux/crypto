@@ -20,114 +20,129 @@ int main(int argC, char * argV[])
 	cout<<"--------------------------------------"<<endl;
 	int intOperacion=-1;                                                //Variable para almacenar tipo de operacion= 0  encriptar, 1  desencriptar; tipo de operacion a realizar.
 	int intDir;                                                         //Variable para identificar si es directorio o documento= 0  directorios,  1  archivos
+	int intEstado=0;                                                    //Variable para analizar si se esta leendo un parametro o un valor de parametro
+	int intPassword=0;
+	int intExtension=0;
+	int intDirectorio=0;
 	char * chrPassword;                                                 //Variable que contiene la contraseña ingresada
 	char * chrRuta;                                                     //Variable que contiene la ruta directorio
-	int intEstado=0;                                                    //Variable para analizar si se esta leendo un parametro o un valor de parametro
+	char * chrExtension;                                                //Variable que contiene extensiones ignoradas
 	char ** chrAuxiliar;                                                //Variable tipo puntero a puntero, para referenciar el valor donde se almacenara algun parametro
 	
 	Buscador buscador;                                                  //Variable tipo clase Buscador
 		
 	for(int x=1; x<argC; x++)
 	{
-		switch(intEstado)
+		if(intEstado==0)
 		{
-			case 0:
-				if(strcasecmp(argV[x], "l")==0)                         //Opcion para 
-				{
-					intEstado=1;
-					chrAuxiliar=&chrRuta;
-				}
-				else if(strcasecmp(argV[x], "c")==0)
-				{
-				}
-				else if(strcasecmp(argV[x], "e")==0)
-				{
-					intOperacion=0;
-				}
-				else if(strcasecmp(argV[x], "d")==0)
-				{
-					intEstado=3;
-					intOperacion=2;
-				}
-				else if(strcasecmp(argV[x], "x")==0)
-				{
-					buscador.leerIgnorados();
-				}
-				else if(strcasecmp(argV[x], "h")==0)
-				{
-					intEstado=2;
-				}
-				else if(strcasecmp(argV[x], "p")==0)
-				{
-					intEstado=1;
-					chrAuxiliar=&chrPassword;
-				}
-				else if(strcasecmp(argV[x], "r")==0)
-				{
-					buscador.reiniciarIgnorados();
-				}
-				else if(strcasecmp(argV[x], "i")==0)
-				{
-					x=argC;
-					intEstado=-1;
-					intOperacion=-1;
-					mostarInformacion();
-				}
-				else
-				{
-					cout<<"Error:"<<endl;
-					cout<<"El parametro "<<argV[x]<<" no es un "
-					    <<"parametro vaido."<<endl<<endl;
-					cout<<"Consulte crypto i, para obtener ayuda"<<endl;
-					x=argC;
-					intEstado=-1;
-					intOperacion=-1;
-				}
-			break;
-			case 1:
-				if(strcasecmp(argV[x], "l")==0 || strcasecmp(argV[x],
-					"p")==0 || strcasecmp(argV[x], "e")==0 ||
-					strcasecmp(argV[x], "d")==0 || strcasecmp(argV[x],
-					"i")==0)
-				{
-					x=argC;
-					intEstado=-1;
-					intOperacion=-1;
-					cout<<"Error en la definicion de los parametros.";
-					cout<<endl;
-				}
-				else
-				{
-					chrRuta=argV[x];
-					intEstado=0;
-				}
-			break;
-			case 2:
+			if(strcasecmp(argV[x], "l")==0)                             //Estado para leer opciones del sistema
+			{                                                           //Opcion para definir directorios
+				intEstado=1;
+				intDirectorio=1;
+				chrAuxiliar=&chrRuta;
+			}
+			else if(strcasecmp(argV[x], "c")==0)                        //Opcion para definir la contraseña de trabajo
+			{
+				intEstado=1;
+				intPassword=1;
+				chrAuxiliar=&chrPassword;
+			}
+			else if(strcasecmp(argV[x], "e")==0)                        //Opcion que indica encriptacion
+			{
+				intOperacion=0;
+			}
+			else if(strcasecmp(argV[x], "d")==0)                        //Opcion que indica desencriptacion
+			{
+				intOperacion=1;
+			}
+			else if(strcasecmp(argV[x], "x")==0)                        //Opcion para leer las extensiones a ignorar
+			{
+				buscador.leerIgnorados();
+			}
+			else if(strcasecmp(argV[x], "h")==0)                        //Opcion para agregar extensiones a ignorar
+			{
+				intEstado=1;
+				intExtension=1;
+				chrAuxiliar=&chrExtension;
+			}
+			else if(strcasecmp(argV[x], "p")==0)                        //Opcion para mostrar las extensiones a ignorar
+			{
+				cout<<"Listado de extensiones ignoradas:"<<endl;
+				buscador.imprimirIgnorados();
+			}
+			else if(strcasecmp(argV[x], "r")==0)                        //Opcion para reiniciar las extensiones ignoradas
+			{
+				buscador.reiniciarIgnorados();
+			}
+			else if(strcasecmp(argV[x], "i")==0)                        //Opcion para mostrar informacion de las opciones del software
+			{
+				x=argC;
+				intEstado=-1;
+				intOperacion=-1;
+				mostarInformacion();
+			}
+			else
+			{
+				x=argC;
+				intEstado=-1;
+				intOperacion=-1;
+				cout<<"Error:"<<endl;
+				cout<<"El parametro "<<argV[x]<<" no es un parametro "<<
+					"vaido."<<endl<<endl;
+				cout<<"Consulte crypto i, para obtener ayuda"<<endl;
+			}
+		}
+		else if(intEstado==1)
+		{
+			if(strcasecmp(argV[x], "l")==0 || strcasecmp(argV[x], "p")  //Estado para leer valores para las opciones del sistemas
+				==0 || strcasecmp(argV[x], "e")==0 || strcasecmp(
+				argV[x], "d")==0 || strcasecmp(argV[x], "i")==0)
+			{
+				x=argC;
+				intEstado=-1;
+				intOperacion=-1;
+				cout<<"Error en la definicion de los parametros."<<endl;
+			}
+			else
+			{
 				intEstado=0;
-				buscador.agregarIgnorados(argV[x]);
-			break;
-			case 3:
-				intEstado=0;
-				buscador.descomponer(argV[x]);
-			break;
+				chrRuta=argV[x];
+			}
 		}
 	}
-	
+	cout<<"--------------------------------------"<<endl;
 	if(intEstado==0)
 	{
-		switch(intOperacion)
+		if(intExtension==1)
 		{
-			case 0:
+			buscador.agregarIgnorados(chrExtension);
+		}
+		
+		if(intDirectorio==0)
+		{
+			cout<<"Debe establecerse el directorio a trabajar."<<endl;
 			
-			break;
-			case 1:
+		}
+		else if(intPassword==0)
+		{
+			cout<<"Debe definir el password que se utilizara para "<<
+				"encryptar/desencryptar."<<endl;
+		}
+		else
+		{
+			buscador.descomponer(chrRuta);
 			
-			break;
-			default:
+			if(intOperacion==0)
+			{
+			}
+			else if(intOperacion==1)
+			{
+			}
+			else
+			{
 				cout<<"No ha indicado si desea encriptar o desencri"<<
-					"ptar.";
-				cout<<endl;
-			break;
+					"ptar."<<endl;
+			}
 		}
 	}
 	else

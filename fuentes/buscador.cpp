@@ -62,7 +62,7 @@ struct Buscador::directorio * Buscador::darElementos()                  //Funcio
 {
 	return inicioDirectorios;
 }
-//Funciones privadas----------------------------------------------------
+
 void Buscador::leerIgnorados()                                          //Funcion para obtener el listado de extensiones guardadas en el archivo
 {                                                                       //ignorados.crypto
 	ifstream archivoIgnorados("ignorados.crypto", ios::in);             
@@ -78,16 +78,29 @@ void Buscador::leerIgnorados()                                          //Funcio
 	
 	archivoIgnorados.close();
 	ofstream ignoradosGuardados("ignorados.crypto", ios::out);          //Se procede a guardar la lista obtenida, dentro del mismo archivo, ya que
-	temporalIgnorados=inicioIgnorados;                                  //esta no cuenta con ningun elemento repetido
+	struct ignorar * auxIgnorados=inicioIgnorados;                      //esta no cuenta con ningun elemento repetido
 	                                                                    
-	while(temporalIgnorados!=NULL)
+	while(auxIgnorados!=NULL)
 	{
-		ignoradosGuardados<<temporalIgnorados->extension<<endl;
-		temporalIgnorados=temporalIgnorados->siguiente;
+		ignoradosGuardados<<auxIgnorados->extension<<endl;
+		auxIgnorados=auxIgnorados->siguiente;
 	}
 	
 	ignoradosGuardados.close();
 }
+
+void Buscador::imprimirIgnorados()
+{
+	leerIgnorados();
+	struct ignorar * auxIgnorados=inicioIgnorados;
+	
+	while(auxIgnorados!=NULL)
+	{
+		cout<<auxIgnorados->extension<<endl;
+		auxIgnorados=auxIgnorados->siguiente;
+	}
+}
+//Funciones privadas----------------------------------------------------
 
 void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcion que recibe un paramatro, que es una extension, para agregarle en su
 {                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
