@@ -101,7 +101,6 @@ void Buscador::imprimirIgnorados()
 	}
 }
 //Funciones privadas----------------------------------------------------
-
 void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcion que recibe un paramatro, que es una extension, para agregarle en su
 {                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
 	if(ignorados==NULL)                                                 //lista dinamica
@@ -213,6 +212,6 @@ void Buscador::obtenerDirectorio(string path)                           //Funcio
 	}
 	else
 	{
-		cout<<"Directorio invalido"<<endl;
+		cout<<"Directorio "<<path<<" es un invalido"<<endl;
 	}
 }

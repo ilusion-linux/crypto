@@ -1,7 +1,6 @@
 crypto
 
-Se encriptara en base a la contraseña, en primer lugar se encontrara una valor basado en
-la contraseña ingresada.
+Se encriptara en base a la contraseña, en primer lugar se encontrara una valor basado en la contraseña ingresada.
 
 Obtener la resta de pares de bytes de la contraseña, y luego sumar los pares obtenidos.
 
@@ -29,11 +28,9 @@ int e=(int)s-(int)s;
 
 int claveB=a+b+c+d+e;
 
-
 int calves=claveA+claveB;
 
-Luego se recorrera el archivo o archivos de byte a byte, e ir comparando bit a bit los claves obtenidas para
-operar segun el bit.
+Luego se recorrera el archivo o archivos de byte a byte, e ir comparando bit a bit los claves obtenidas para operar segun el bit.
 
 byte pares
   bit 0 suma
@@ -48,7 +45,7 @@ Suma
 encriptacion
 byte_archivo+byte_clave
 
-si la suma es mayor de 256 solo se tomara en cuenta el exedente de 256, en caso contrari tomar la suma
+si la suma es mayor de 256 solo se tomara en cuenta el exedente de 256, en caso contrari tomar la suma.
 
 desencriptacion
 si la lectua es menor que el byte_clave, entonces
@@ -67,8 +64,7 @@ Resta
 encriptacion
 byte_archivo-byte_clave
 
-si el resultado es negativo entonces se tomara el valor absoluto, en cas contrario tomaremos el resultado
-de la operacion
+si el resultado es negativo entonces se tomara el valor absoluto, en cas contrario tomaremos el resultado de la operacion
 
 desencriptacion
 Si la lectura es mejor que el byte_clave, entonces
@@ -78,7 +74,3 @@ byte_clave-byte_archivo
 en caso contrario
 
 byte_archivo+byte_clave
-
-
-
-

@@ -9,6 +9,7 @@
 #include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
 #include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "buscador.h"
+#include "encriptador.h"
 
 using std::cout;
 using std::endl;
@@ -106,37 +107,38 @@ int main(int argC, char * argV[])
 			else
 			{
 				intEstado=0;
-				chrRuta=argV[x];
+				*chrAuxiliar=argV[x];
 			}
 		}
 	}
+	
 	cout<<"--------------------------------------"<<endl;
-	if(intEstado==0)
-	{
-		if(intExtension==1)
+	
+	if(intEstado==0)                                                    //Se compara que se encuentre en un estado valido, que se haya asignado su valor
+	{                                                                   //correspondiente al ultimo parametro
+		if(intExtension==1)                                             //Si se definieron extensiones se agregan al trabajo actual
 		{
 			buscador.agregarIgnorados(chrExtension);
 		}
 		
-		if(intDirectorio==0)
+		if(intDirectorio==0)                                            //Se comprueba que se haya definido el directorio de trabajo
 		{
 			cout<<"Debe establecerse el directorio a trabajar."<<endl;
 			
 		}
-		else if(intPassword==0)
+		else if(intPassword==0)                                         //Se comprueba que se definiera el password de trabajo
 		{
 			cout<<"Debe definir el password que se utilizara para "<<
 				"encryptar/desencryptar."<<endl;
 		}
 		else
 		{
-			buscador.descomponer(chrRuta);
+			buscador.descomponer(chrRuta);                              //Descomponemos la ruta de trabajo
 			
-			if(intOperacion==0)
+			if(intOperacion==0 || intOperacion==1)                      //Se procede a encryptar o a desencryptar
 			{
-			}
-			else if(intOperacion==1)
-			{
+				//Encriptador encriptador(chrPassword, buscador, intOperacion);
+				Encriptador encriptador(chrPassword, buscador.darElementos(), intOperacion);
 			}
 			else
 			{
