@@ -50,7 +50,7 @@ byte_archivo+byte_clave
 si la suma es mayor de 256 solo se tomara en cuenta el exedente de 256, en caso contrari tomar la suma.
 
 desencriptacion
-si la lectua es menor que el byte_clave, entonces
+si la lectura es menor que el byte_clave, entonces
 
 byte_calve-byte_archivo
 
