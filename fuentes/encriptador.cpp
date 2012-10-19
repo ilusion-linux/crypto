@@ -1,9 +1,15 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
 #include "encriptador.h"
 
 using std::cout;
 using std::endl;
+using std::ios;
+using std::ofstream;
+using std::ifstream;
+
+const int Encriptador::intTamanio=((sizeof(char)*8)-1);                 //Definicion del tamanio de la variable char, segun cada plataforma y sistema operativo
 
 Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	int operacion)
@@ -13,18 +19,22 @@ Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	
 	chrPassword=pass;
 	generarLlave();
+	intOperacion=operacion;
 	elementos=(struct directorio *)dir;
-	
-	while(elementos!=NULL)
-	{
-		cout<<elementos->objeto<<endl;
-		elementos=elementos->siguiente;
-	}
+	inicioElementos=elementos;
 }
 //Funciones publicas----------------------------------------------------
-bool Encriptador::iniciarProceso()
+void Encriptador::iniciarProceso()
 {
-	return true;
+	switch(intOperacion)
+	{
+		case 0:
+			encriptar();
+		break;
+		case 1:
+			desencriptar();
+		break;
+	}
 }
 //Funciones privadas----------------------------------------------------
 void Encriptador::generarLlave()
@@ -36,7 +46,6 @@ void Encriptador::generarLlave()
 	while(x<tamanio)
 	{
 		tempA=tempA+(((int)chrPassword[x])-((int)chrPassword[++x]));
-		cout<<chrPassword[x];
 		++x;
 	}
 	
@@ -56,20 +65,6 @@ void Encriptador::generarLlave()
 	agregarLlave(fabs(tempB));
 	agregarLlave(fabs(tempA)+fabs(tempB));
 	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
-	
-	/*temporalLlaves=inicioLlaves;
-	int aux=0;
-	
-	while(temporalLlaves!=NULL)
-	{
-		cout<<temporalLlaves->intLlave<<endl;
-		temporalLlaves=temporalLlaves->siguiente;
-		++aux;
-		if(aux==10)
-		{
-			temporalLlaves=NULL;
-		}
-	}*/
 }
 
 void Encriptador::agregarLlave(int elemento)
@@ -92,8 +87,65 @@ void Encriptador::agregarLlave(int elemento)
 
 void Encriptador::encriptar()
 {
+	int intRecorrido=0;
+	llaves=inicioLlaves;
+	
+	while(elementos!=NULL)
+	{
+		char chrLectura;		
+		ifstream lectura(elementos->objeto.c_str(), ios::binary);
+		string strLectura="temp/buffer"+elementos->objeto;
+		
+		ofstream escritura(strLectura.c_str(), ios::out);
+		
+		while(lectura>>chrLectura)
+		{
+			
+			int intEscritura;
+			
+			if((intRecorrido%2)==0)
+			{
+				
+			}
+			else
+			{
+				
+			}
+			
+			intEscritura=((int)chrLectura)+(llaves->intLlave);
+			
+			intEscritura=((int)chrLectura)-(llaves->intLlave);
+			
+			if(intRecorrido==intTamanio)
+			{
+				intRecorrido=0;
+				llaves=llaves->siguiente;
+			}
+			
+			++intRecorrido;
+		}
+		
+		elementos=elementos->siguiente;
+	}
 }
 
 void Encriptador::desencriptar()
+{
+	llaves=inicioLlaves;
+	
+	while(elementos!=NULL)
+	{
+		
+		
+		
+		elementos=elementos->siguiente;
+	}
+}
+
+void Encriptador::leer()
+{
+}
+
+void Encriptador::escribir()
 {
 }

@@ -18,6 +18,14 @@ void mostarInformacion();                                               //Funcio
 
 int main(int argC, char * argV[])
 {
+	cout<<"int           = "<<sizeof(int)<<endl;
+	cout<<"char          = "<<sizeof(char)<<endl;
+	cout<<"wchar_t       = "<<sizeof(wchar_t)<<endl;
+	cout<<"bool          = "<<sizeof(bool)<<endl;
+	cout<<"unsigned int  = "<<sizeof(unsigned int)<<endl;
+	cout<<"shor int      = "<<sizeof(short int)<<endl;
+	cout<<"unsigned char = "<<sizeof(unsigned char)<<endl;
+	//cout<<"byte          = "<<sizeof(byte)<<endl;
 	cout<<"--------------------------------------"<<endl;
 	int intOperacion=-1;                                                //Variable para almacenar tipo de operacion= 0  encriptar, 1  desencriptar; tipo de operacion a realizar.
 	int intDir;                                                         //Variable para identificar si es directorio o documento= 0  directorios,  1  archivos
@@ -112,8 +120,6 @@ int main(int argC, char * argV[])
 		}
 	}
 	
-	cout<<"--------------------------------------"<<endl;
-	
 	if(intEstado==0)                                                    //Se compara que se encuentre en un estado valido, que se haya asignado su valor
 	{                                                                   //correspondiente al ultimo parametro
 		if(intExtension==1)                                             //Si se definieron extensiones se agregan al trabajo actual
@@ -137,8 +143,9 @@ int main(int argC, char * argV[])
 			
 			if(intOperacion==0 || intOperacion==1)                      //Se procede a encryptar o a desencryptar
 			{
-				//Encriptador encriptador(chrPassword, buscador, intOperacion);
-				Encriptador encriptador(chrPassword, buscador.darElementos(), intOperacion);
+				Encriptador crypto(chrPassword, buscador.darElementos(),
+					intOperacion);
+				crypto.iniciarProceso();
 			}
 			else
 			{

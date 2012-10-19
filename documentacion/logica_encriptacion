@@ -30,8 +30,9 @@ int claveB=a+b+c+d+e;
 
 int calves=claveA+claveB;
 
-Luego se recorrera el archivo o archivos de byte a byte, e ir comparando bit a bit los claves obtenidas para operar segun el bit.
 
+
+Luego se recorrera el archivo o archivos de byte a byte, e ir comparando bit a bit los claves obtenidas para operar segun el bit.
 byte pares
   bit 0 suma
   bit 1 resta
@@ -39,6 +40,7 @@ byte pares
 byte impares
   bit 0 resta
   bit 1 suma
+
 
 
 Suma
@@ -57,6 +59,8 @@ se toma el resultado de esta resta y se opera, 256 - el valor obtenido, y asi ob
 en caso contrario
 
 byte_archivo-byte_clave
+
+
 
 
 
