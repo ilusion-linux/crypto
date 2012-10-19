@@ -15,6 +15,7 @@ class Encriptador
 		int intOperacion;
 		char * chrPassword;
 		static const int intTamanio;
+		static const int intComparador;
 					
 		struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{

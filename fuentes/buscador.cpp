@@ -189,7 +189,8 @@ void Buscador::obtenerDirectorio(string path)                           //Funcio
 			if(strcmp(elemento, ".")!=0 && strcmp(elemento, "..")!=0)   //Determinados que cada elemento no sean ni "." ni "..", los cuales pertenecen a cada
 			{                                                           //directorio de los sistemas UNIX y Linux
 				struct stat atributos;                                  //Se crea una estructura tipo stat, para contener informacion sobre cada elemento
-				string aux=path+"/"+string(listado->d_name);            //Unimos el directorio con el nombre del elemento, para obtener direcciones completas
+				string aux=string(path)+string("/")+string(             
+					listado->d_name);                                   //Unimos el directorio con el nombre del elemento, para obtener direcciones completas
 				
 				if(stat(aux.c_str(), &atributos)==0)                    //Con la funcion stat se obtienen los atributos del elemento del directorio listado
 				{

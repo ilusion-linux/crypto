@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "encriptador.h"
 
 using std::cout;
@@ -10,6 +11,7 @@ using std::ofstream;
 using std::ifstream;
 
 const int Encriptador::intTamanio=((sizeof(char)*8)-1);                 //Definicion del tamanio de la variable char, segun cada plataforma y sistema operativo
+const int Encriptador::intComparador=1<<intTamanio;
 
 Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	int operacion)
@@ -22,6 +24,12 @@ Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	intOperacion=operacion;
 	elementos=(struct directorio *)dir;
 	inicioElementos=elementos;
+	while(elementos!=NULL)
+	{
+		cout<<elementos->objeto<<endl;
+		elementos=elementos->siguiente;
+	}
+	elementos=inicioElementos;
 }
 //Funciones publicas----------------------------------------------------
 void Encriptador::iniciarProceso()
@@ -89,42 +97,80 @@ void Encriptador::encriptar()
 {
 	int intRecorrido=0;
 	llaves=inicioLlaves;
+	int intLlaveBinaria=llaves->intLlave;
 	
 	while(elementos!=NULL)
 	{
 		char chrLectura;		
 		ifstream lectura(elementos->objeto.c_str(), ios::binary);
-		string strLectura="temp/buffer"+elementos->objeto;
-		
+		string strLectura="temp/bufferA.crypto";
 		ofstream escritura(strLectura.c_str(), ios::out);
 		
 		while(lectura>>chrLectura)
 		{
-			
 			int intEscritura;
 			
 			if((intRecorrido%2)==0)
 			{
-				
+				if((intLlaveBinaria && intComparador)==true)
+				{
+					intEscritura=((int)chrLectura)+(llaves->intLlave);
+					
+					if(intEscritura>256)
+					{
+						intEscritura=intEscritura-256;
+					}
+				}
+				else
+				{
+					intEscritura=((int)chrLectura)-(llaves->intLlave);
+					
+					if(intEscritura<0)
+					{
+						intEscritura=fabs(intEscritura);
+					}
+				}
 			}
 			else
 			{
-				
+				if((intLlaveBinaria && intComparador)==true)
+				{
+					intEscritura=((int)chrLectura)-(llaves->intLlave);
+					
+					if(intEscritura<0)
+					{
+						intEscritura=fabs(intEscritura);
+					}
+				}
+				else
+				{
+					intEscritura=((int)chrLectura)+(llaves->intLlave);
+					
+					if(intEscritura>256)
+					{
+						intEscritura=intEscritura-256;
+					}
+				}
 			}
 			
-			intEscritura=((int)chrLectura)+(llaves->intLlave);
-			
-			intEscritura=((int)chrLectura)-(llaves->intLlave);
+			escritura<<((char)intEscritura);
+			intLlaveBinaria<<=1;
 			
 			if(intRecorrido==intTamanio)
 			{
 				intRecorrido=0;
 				llaves=llaves->siguiente;
+				intLlaveBinaria=llaves->intLlave;
 			}
 			
 			++intRecorrido;
 		}
 		
+		lectura.close();
+		escritura.close();
+		string copy=string("cp \"")+strLectura+string("\" \"")+
+			elementos->objeto+string("\"");
+		system(copy.c_str());
 		elementos=elementos->siguiente;
 	}
 }
@@ -135,9 +181,6 @@ void Encriptador::desencriptar()
 	
 	while(elementos!=NULL)
 	{
-		
-		
-		
 		elementos=elementos->siguiente;
 	}
 }

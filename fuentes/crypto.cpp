@@ -18,14 +18,6 @@ void mostarInformacion();                                               //Funcio
 
 int main(int argC, char * argV[])
 {
-	cout<<"int           = "<<sizeof(int)<<endl;
-	cout<<"char          = "<<sizeof(char)<<endl;
-	cout<<"wchar_t       = "<<sizeof(wchar_t)<<endl;
-	cout<<"bool          = "<<sizeof(bool)<<endl;
-	cout<<"unsigned int  = "<<sizeof(unsigned int)<<endl;
-	cout<<"shor int      = "<<sizeof(short int)<<endl;
-	cout<<"unsigned char = "<<sizeof(unsigned char)<<endl;
-	//cout<<"byte          = "<<sizeof(byte)<<endl;
 	cout<<"--------------------------------------"<<endl;
 	int intOperacion=-1;                                                //Variable para almacenar tipo de operacion= 0  encriptar, 1  desencriptar; tipo de operacion a realizar.
 	int intDir;                                                         //Variable para identificar si es directorio o documento= 0  directorios,  1  archivos
