@@ -23,13 +23,7 @@ Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	generarLlave();
 	intOperacion=operacion;
 	elementos=(struct directorio *)dir;
-	inicioElementos=elementos;
-	while(elementos!=NULL)
-	{
-		cout<<elementos->objeto<<endl;
-		elementos=elementos->siguiente;
-	}
-	elementos=inicioElementos;
+	//inicioElementos=elementos;
 }
 //Funciones publicas----------------------------------------------------
 void Encriptador::iniciarProceso()
@@ -73,14 +67,12 @@ void Encriptador::generarLlave()
 	agregarLlave(fabs(tempB));
 	agregarLlave(fabs(tempA)+fabs(tempB));
 	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
-	cout<<endl<<endl;
 }
 
 void Encriptador::agregarLlave(int elemento)
 {
 	llaves=new struct llave;
 	llaves->intLlave=elemento;
-	cout<<elemento<<"  |  ";
 	
 	if(temporalLlaves==NULL)
 	{
@@ -108,9 +100,10 @@ void Encriptador::encriptar()
 		ifstream lectura(elementos->objeto.c_str(), ios::binary);
 		ofstream escritura(strLectura.c_str(), ios::out);
 		
-		while(!lectura.eof())
+		while(elementos->byteArchivo>0)
 		{
 			int intEscritura;
+			--elementos->byteArchivo;
 			lectura.read(chrLectura, sizeof(chrLectura));
 			
 			if((intRecorrido%2)==0)
@@ -197,9 +190,10 @@ void Encriptador::desencriptar()
 		ifstream lectura(elementos->objeto.c_str(), ios::binary);
 		ofstream escritura(strLectura.c_str(), ios::out);
 		
-		while(!lectura.eof())
+		while(elementos->byteArchivo>0)
 		{
 			int intEscritura;
+			--elementos->byteArchivo;
 			lectura.read(chrLectura, sizeof(chrLectura));
 			
 			if((intRecorrido%2)==0)

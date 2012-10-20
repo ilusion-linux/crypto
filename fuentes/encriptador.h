@@ -20,10 +20,10 @@ class Encriptador
 		struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{
 			string objeto;
+			int byteArchivo;
 			struct directorio * siguiente;
 		};
 		struct directorio * elementos;
-		struct directorio * inicioElementos;
 		
 		struct llave                                                    //Esctructura para almacenar las llaves generadas
 		{

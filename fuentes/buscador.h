@@ -10,6 +10,7 @@ class Buscador
 	    struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{
 			string objeto;
+			int byteArchivo;
 			struct directorio * siguiente;
 		};
 		
@@ -39,7 +40,7 @@ class Buscador
 		bool extensionUnica(string);                                    //Funcion para comprobar que no hay extensiones repetidas
 		bool extensionValida(string);									//Funcion para comprobar que el archivo contiene una extension valida
 		void agregarElementoIgnorado(string);                           //Funcion para agregar elementos a la lista enlazada de extensiones ignoradas
-		void agregarElementoDirectorio(string);                         //Funcion para agregar elementos a la lista enlazada de directorios a cifrar o decifrar
+		void agregarElementoDirectorio(string, int);                    //Funcion para agregar elementos a la lista enlazada de directorios a cifrar o decifrar
 		void obtenerDirectorio(string);                                 //Funcion para obtener el listado de archivos de un directorio
 };
 #endif

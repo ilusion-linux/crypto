@@ -123,12 +123,13 @@ void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcio
 	}
 }
 
-void Buscador::agregarElementoDirectorio(string elemento)               //Funcion que recibe un paramatro, que es una elemento de un directorio, para 
+void Buscador::agregarElementoDirectorio(string elemento, int tamanio)  //Funcion que recibe un paramatro, que es una elemento de un directorio, para 
 {                                                                       //agregarle en su repectiva lista enlazada.  Esta funcion gestiona la creacion 
 	if(directorios==NULL)                                               //y enlaze de la lista dinamica
 	{
 		directorios=new struct directorio;
 		directorios->objeto=elemento;
+		directorios->byteArchivo=tamanio;
 		directorios->siguiente=NULL;
 		
 		inicioDirectorios=directorios;
@@ -138,6 +139,7 @@ void Buscador::agregarElementoDirectorio(string elemento)               //Funcio
 	{
 		directorios=new struct directorio;
 		directorios->objeto=elemento;
+		directorios->byteArchivo=tamanio;
 		directorios->siguiente=NULL;
 		
 		temporalDirectorios->siguiente=directorios;
@@ -202,7 +204,8 @@ void Buscador::obtenerDirectorio(string path)                           //Funcio
 					{                                                   //una extension invalida, y se agrega al lista de directorios
 						if(extensionValida(aux)==true)
 						{
-							agregarElementoDirectorio(aux);
+							int numero=atributos.st_size;
+							agregarElementoDirectorio(aux, numero);
 						}
 					}
 				}
