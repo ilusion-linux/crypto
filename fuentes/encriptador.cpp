@@ -103,20 +103,21 @@ void Encriptador::encriptar()
 	
 	while(elementos!=NULL)
 	{
-		char chrLectura;		
-		ifstream lectura(elementos->objeto.c_str(), ios::binary);
+		char chrLectura[1];
 		string strLectura="temp/bufferA.crypto";
+		ifstream lectura(elementos->objeto.c_str(), ios::binary);
 		ofstream escritura(strLectura.c_str(), ios::out);
 		
-		while(lectura>>chrLectura)
+		while(!lectura.eof())
 		{
 			int intEscritura;
+			lectura.read(chrLectura, sizeof(chrLectura));
 			
 			if((intRecorrido%2)==0)
 			{
 				if((intLlaveBinaria && intComparador)==true)
 				{
-					intEscritura=((int)chrLectura)+(llaves->intLlave);
+					intEscritura=((int)chrLectura[0])+llaves->intLlave;
 					
 					if(intEscritura>256)
 					{
@@ -125,11 +126,12 @@ void Encriptador::encriptar()
 				}
 				else
 				{
-					intEscritura=((int)chrLectura)-(llaves->intLlave);
+					intEscritura=((int)chrLectura[0])-llaves->intLlave;
 					
 					if(intEscritura<0)
 					{
 						intEscritura=fabs(intEscritura);
+						intEscritura=256-intEscritura;
 					}
 				}
 			}
@@ -137,16 +139,17 @@ void Encriptador::encriptar()
 			{
 				if((intLlaveBinaria && intComparador)==true)
 				{
-					intEscritura=((int)chrLectura)-(llaves->intLlave);
+					intEscritura=((int)chrLectura[0])-llaves->intLlave;
 					
 					if(intEscritura<0)
 					{
 						intEscritura=fabs(intEscritura);
+						intEscritura=256-intEscritura;
 					}
 				}
 				else
 				{
-					intEscritura=((int)chrLectura)+(llaves->intLlave);
+					intEscritura=((int)chrLectura[0])+llaves->intLlave;
 					
 					if(intEscritura>256)
 					{
@@ -168,14 +171,15 @@ void Encriptador::encriptar()
 				intLlaveBinaria<<=1;
 				++intRecorrido;
 			}
-			
 		}
 		
 		lectura.close();
 		escritura.close();
+		
 		string copy=string("cp \"")+strLectura+string("\" \"")+
 			elementos->objeto+string("\"");
 		system(copy.c_str());
+		
 		elementos=elementos->siguiente;
 	}
 }
@@ -188,40 +192,40 @@ void Encriptador::desencriptar()
 	
 	while(elementos!=NULL)
 	{
-		char chrLectura;		
-		ifstream lectura(elementos->objeto.c_str(), ios::binary);
+		char chrLectura[1];
 		string strLectura="temp/bufferA.crypto";
+		ifstream lectura(elementos->objeto.c_str(), ios::binary);
 		ofstream escritura(strLectura.c_str(), ios::out);
 		
-		while(lectura>>chrLectura)
+		while(!lectura.eof())
 		{
 			int intEscritura;
+			lectura.read(chrLectura, sizeof(chrLectura));
 			
 			if((intRecorrido%2)==0)
 			{
 				if((intLlaveBinaria && intComparador)==true)
 				{
-					if(((int)chrLectura)<(llaves->intLlave))
+					if((llaves->intLlave)<((int)chrLectura[0]))
 					{
-						intEscritura=(llaves->intLlave)-((int)
-							chrLectura);
-						intEscritura=256-intEscritura;
+						intEscritura=((int)chrLectura[0])-llaves->intLlave;
 					}
 					else
 					{
-						intEscritura=((int)chrLectura)-(llaves->intLlave);
-						
+						intEscritura=llaves->intLlave-((int)chrLectura[0]);
+						intEscritura=256-intEscritura;
 					}
 				}
 				else
 				{
-					if(((int)chrLectura)>(llaves->intLlave))
+					if((llaves->intLlave)<((int)chrLectura[0]))
 					{
-						intEscritura=(llaves->intLlave)-((int)chrLectura);
+						intEscritura=llaves->intLlave+((int)chrLectura[0]);
 					}
 					else
 					{
-						intEscritura=((int)chrLectura)+(llaves->intLlave);
+						intEscritura=256-((int)chrLectura[0]);
+						intEscritura=llaves->intLlave-intEscritura;
 					}
 				}
 			}
@@ -229,27 +233,26 @@ void Encriptador::desencriptar()
 			{
 				if((intLlaveBinaria && intComparador)==true)
 				{
-					if(((int)chrLectura)>(llaves->intLlave))
+					if((llaves->intLlave)<((int)chrLectura[0]))
 					{
-						intEscritura=(llaves->intLlave)-((int)chrLectura);
+						intEscritura=llaves->intLlave+((int)chrLectura[0]);
 					}
 					else
 					{
-						intEscritura=((int)chrLectura)+(llaves->intLlave);
+						intEscritura=256-((int)chrLectura[0]);
+						intEscritura=llaves->intLlave-intEscritura;
 					}
 				}
 				else
 				{
-					if(((int)chrLectura)<(llaves->intLlave))
+					if((llaves->intLlave)<((int)chrLectura[0]))
 					{
-						intEscritura=(llaves->intLlave)-((int)
-							chrLectura);
-						intEscritura=256-intEscritura;
+						intEscritura=((int)chrLectura[0])-llaves->intLlave;
 					}
 					else
 					{
-						intEscritura=((int)chrLectura)-(llaves->intLlave);
-						
+						intEscritura=llaves->intLlave-((int)chrLectura[0]);
+						intEscritura=256-intEscritura;
 					}
 				}
 			}
@@ -271,9 +274,11 @@ void Encriptador::desencriptar()
 		
 		lectura.close();
 		escritura.close();
+		
 		string copy=string("cp \"")+strLectura+string("\" \"")+
 			elementos->objeto+string("\"");
 		system(copy.c_str());
+		
 		elementos=elementos->siguiente;
 	}
 }
