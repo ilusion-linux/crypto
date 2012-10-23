@@ -10,8 +10,11 @@ using std::ios;
 using std::ofstream;
 using std::ifstream;
 
-const int Encriptador::intTamanio=((sizeof(int)*8)-1);                  //Definicion del tamanio de la variable char, segun cada plataforma y sistema operativo
+const int Encriptador::intTamanio=((sizeof(int)*8)-1);                  //Definicion del tamanio de la variable int, segun cada plataforma y sistema operativo
 const int Encriptador::intComparador=1<<intTamanio;
+const int Encriptador::intLimitePositivo=127;
+const int Encriptador::intLimiteNegativo=-127;
+const int Encriptador::intAjuste=127;
 
 Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	int operacion)
@@ -23,7 +26,6 @@ Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
 	generarLlave();
 	intOperacion=operacion;
 	elementos=(struct directorio *)dir;
-	//inicioElementos=elementos;
 }
 //Funciones publicas----------------------------------------------------
 void Encriptador::iniciarProceso()
@@ -67,6 +69,19 @@ void Encriptador::generarLlave()
 	agregarLlave(fabs(tempB));
 	agregarLlave(fabs(tempA)+fabs(tempB));
 	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
+	
+	llaves=inicioLlaves;
+	temporalLlaves=inicioLlaves;
+	
+	while(llaves->siguiente!=temporalLlaves)
+	{
+		while(llaves->intLlave>intLimitePositivo)
+		{
+			llaves->intLlave=llaves->intLlave-llaves->intLlave;
+		}
+		
+		llaves=llaves->siguiente;
+	}
 }
 
 void Encriptador::agregarLlave(int elemento)
@@ -103,50 +118,79 @@ void Encriptador::encriptar()
 		while(elementos->byteArchivo>0)
 		{
 			int intEscritura;
-			--elementos->byteArchivo;
 			lectura.read(chrLectura, sizeof(chrLectura));
+			int intLectura=(int)chrLectura[0];
 			
-			if((intRecorrido%2)==0)
+			if(intLectura==-128)
 			{
-				if((intLlaveBinaria && intComparador)==true)
-				{
-					intEscritura=((int)chrLectura[0])+llaves->intLlave;
-					
-					if(intEscritura>256)
-					{
-						intEscritura=intEscritura-256;
-					}
-				}
-				else
-				{
-					intEscritura=((int)chrLectura[0])-llaves->intLlave;
-					
-					if(intEscritura<0)
-					{
-						intEscritura=fabs(intEscritura);
-						intEscritura=256-intEscritura;
-					}
-				}
+				intEscritura=-128;
 			}
 			else
 			{
-				if((intLlaveBinaria && intComparador)==true)
+				if((intRecorrido%2)==0)
 				{
-					intEscritura=((int)chrLectura[0])-llaves->intLlave;
-					
-					if(intEscritura<0)
+					if((intLlaveBinaria && intComparador)==true)
 					{
-						intEscritura=fabs(intEscritura);
-						intEscritura=256-intEscritura;
+						intEscritura=intLectura+llaves->intLlave;
+						
+						if(intLectura==127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura>=intLimitePositivo)
+						{
+							intEscritura=intLectura-intAjuste;
+							intEscritura=intEscritura-intAjuste;
+							intEscritura=intEscritura+llaves->intLlave;
+						}
+					}
+					else
+					{
+						intEscritura=intLectura-llaves->intLlave;
+						
+						if(intLectura==-127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura<=intLimiteNegativo)
+						{
+							intEscritura=intLectura+intAjuste;
+							intEscritura=intEscritura+intAjuste;
+							intEscritura=intEscritura-llaves->intLlave;
+						}
 					}
 				}
 				else
 				{
-					intEscritura=((int)chrLectura[0])+llaves->intLlave;
-					
-					if(intEscritura>256)
+					if((intLlaveBinaria && intComparador)==true)
 					{
-						intEscritura=intEscritura-256;
+						intEscritura=intLectura-llaves->intLlave;
+						
+						if(intLectura==-127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura<=intLimiteNegativo)
+						{
+							intEscritura=intLectura+intAjuste;
+							intEscritura=intEscritura+intAjuste;
+							intEscritura=intEscritura-llaves->intLlave;
+						}
+					}
+					else
+					{
+						intEscritura=intLectura+llaves->intLlave;
+						
+						if(intLectura==127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura>=intLimitePositivo)
+						{
+							intEscritura=intLectura-intAjuste;
+							intEscritura=intEscritura-intAjuste;
+							intEscritura=intEscritura+llaves->intLlave;
+						}
 					}
 				}
 			}
@@ -164,6 +208,8 @@ void Encriptador::encriptar()
 				intLlaveBinaria<<=1;
 				++intRecorrido;
 			}
+			
+			--elementos->byteArchivo;
 		}
 		
 		lectura.close();
@@ -193,64 +239,79 @@ void Encriptador::desencriptar()
 		while(elementos->byteArchivo>0)
 		{
 			int intEscritura;
-			--elementos->byteArchivo;
 			lectura.read(chrLectura, sizeof(chrLectura));
+			int intLectura=(int)chrLectura[0];
 			
-			if((intRecorrido%2)==0)
+			if(intLectura==-128)
 			{
-				if((intLlaveBinaria && intComparador)==true)
-				{
-					if((llaves->intLlave)<((int)chrLectura[0]))
-					{
-						intEscritura=((int)chrLectura[0])-llaves->intLlave;
-					}
-					else
-					{
-						intEscritura=llaves->intLlave-((int)chrLectura[0]);
-						intEscritura=256-intEscritura;
-					}
-				}
-				else
-				{
-					if((llaves->intLlave)<((int)chrLectura[0]))
-					{
-						intEscritura=llaves->intLlave+((int)chrLectura[0]);
-					}
-					else
-					{
-						intEscritura=256-((int)chrLectura[0]);
-						intEscritura=llaves->intLlave-intEscritura;
-					}
-				}
+				intEscritura=-128;
 			}
 			else
-			{
-				if((intLlaveBinaria && intComparador)==true)
+			{		
+				if((intRecorrido%2)==0)
 				{
-					if((llaves->intLlave)<((int)chrLectura[0]))
+					if((intLlaveBinaria && intComparador)==true)
 					{
-						intEscritura=llaves->intLlave+((int)chrLectura[0]);
+						intEscritura=intLectura-llaves->intLlave;
+						
+						if(intLectura==127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura<intLimiteNegativo)
+						{
+							intEscritura=intEscritura+intAjuste;
+							intEscritura=intEscritura+intAjuste;
+						}
 					}
 					else
 					{
-						intEscritura=256-((int)chrLectura[0]);
-						intEscritura=llaves->intLlave-intEscritura;
+						intEscritura=intLectura+llaves->intLlave;
+						
+						if(intLectura==-127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura>intLimitePositivo)
+						{
+							intEscritura=intEscritura-intAjuste;
+							intEscritura=intEscritura-intAjuste;
+						}
 					}
 				}
 				else
 				{
-					if((llaves->intLlave)<((int)chrLectura[0]))
+					if((intLlaveBinaria && intComparador)==true)
 					{
-						intEscritura=((int)chrLectura[0])-llaves->intLlave;
+						intEscritura=intLectura+llaves->intLlave;
+						
+						if(intLectura==-127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura>intLimitePositivo)
+						{
+							intEscritura=intEscritura-intAjuste;
+							intEscritura=intEscritura-intAjuste;
+						}
 					}
 					else
 					{
-						intEscritura=llaves->intLlave-((int)chrLectura[0]);
-						intEscritura=256-intEscritura;
+						intEscritura=intLectura-llaves->intLlave;
+						
+						if(intLectura==127)
+						{
+							intEscritura=intLectura;
+						}
+						else if(intEscritura<intLimiteNegativo)
+						{
+							intEscritura=intEscritura+intAjuste;
+							intEscritura=intEscritura+intAjuste;
+						}
 					}
 				}
 			}
-			
+					
 			escritura<<((char)intEscritura);
 			
 			if(intRecorrido==intTamanio)
@@ -264,6 +325,8 @@ void Encriptador::desencriptar()
 				intLlaveBinaria<<=1;
 				++intRecorrido;
 			}
+			
+			--elementos->byteArchivo;
 		}
 		
 		lectura.close();
