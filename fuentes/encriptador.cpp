@@ -130,7 +130,7 @@ void Encriptador::encriptar()
 			{
 				if((intRecorrido%2)==0)
 				{
-					if((intLlaveBinaria && intComparador)==true)
+					if((intLlaveBinaria & intComparador)==true)
 					{
 						intEscritura=intLectura+llaves->intLlave;
 						
@@ -163,7 +163,7 @@ void Encriptador::encriptar()
 				}
 				else
 				{
-					if((intLlaveBinaria && intComparador)==true)
+					if((intLlaveBinaria & intComparador)==true)
 					{
 						intEscritura=intLectura-llaves->intLlave;
 						
@@ -251,7 +251,7 @@ void Encriptador::desencriptar()
 			{		
 				if((intRecorrido%2)==0)
 				{
-					if((intLlaveBinaria && intComparador)==true)
+					if((intLlaveBinaria & intComparador)==true)
 					{
 						intEscritura=intLectura-llaves->intLlave;
 						
@@ -282,7 +282,7 @@ void Encriptador::desencriptar()
 				}
 				else
 				{
-					if((intLlaveBinaria && intComparador)==true)
+					if((intLlaveBinaria & intComparador)==true)
 					{
 						intEscritura=intLectura+llaves->intLlave;
 						

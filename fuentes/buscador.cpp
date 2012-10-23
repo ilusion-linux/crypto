@@ -106,7 +106,7 @@ void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcio
 	ignorados=new struct ignorar;                                       //lista dinamica
 	ignorados->extension=ignorado;
 		
-	if(ignorados==NULL)                                                 
+	if(inicioIgnorados==NULL)                                                 
 	{
 		ignorados->siguiente=NULL;
 		
@@ -128,7 +128,7 @@ void Buscador::agregarElementoDirectorio(string elemento, int tamanio)  //Funcio
 	directorios->objeto=elemento;
 	directorios->byteArchivo=tamanio;
 		
-	if(directorios==NULL)                                               
+	if(inicioDirectorios==NULL)                                               
 	{
 		directorios->siguiente=NULL;
 		
