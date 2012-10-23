@@ -1,6 +1,6 @@
-#include <iostream>
-#include <cmath>
-#include <fstream>
+#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
+#include <cmath>                                                        //Biblioteca cmath para funciones matematicas
+#include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
 #include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "encriptador.h"
 
@@ -11,24 +11,25 @@ using std::ofstream;
 using std::ifstream;
 
 const int Encriptador::intTamanio=((sizeof(int)*8)-1);                  //Definicion del tamanio de la variable int, segun cada plataforma y sistema operativo
-const int Encriptador::intComparador=1<<intTamanio;
-const int Encriptador::intLimitePositivo=127;
-const int Encriptador::intLimiteNegativo=-127;
-const int Encriptador::intAjuste=127;
+const int Encriptador::intComparador=1<<intTamanio;                     //Asignacion del juego de bits del numero 1 a intComparados
+const int Encriptador::intLimitePositivo=127;                           //Definicion de limites para el diccionario positivo
+const int Encriptador::intLimiteNegativo=-127;                          //Definicion de limites para el diccionario negativo
+const int Encriptador::intAjuste=127;                                   //Ajuste a aplicar para combinacion que pasen los limites de los diccionarios
 
 Encriptador::Encriptador(char * pass, struct Buscador::directorio * dir,
-	int operacion)
+	int operacion)                                                      
 {
-	llaves=NULL;
+	llaves=NULL;                                                        //Inicializacion en NULL de las estructuras para almacenar las llaves
+	inicioLlaves=NULL;
 	temporalLlaves=NULL;
 	
-	chrPassword=pass;
+	chrPassword=pass;                                                   
 	generarLlave();
 	intOperacion=operacion;
-	elementos=(struct directorio *)dir;
+	elementos=(struct directorio *)dir;                                 //Conversin y asignacion de la estructura que contiene los directorios a trabajar
 }
 //Funciones publicas----------------------------------------------------
-void Encriptador::iniciarProceso()
+void Encriptador::iniciarProceso()                                      //Funcion para iniciar el proceso, ya sea encriptacion y desencriptacion
 {
 	switch(intOperacion)
 	{
@@ -41,13 +42,13 @@ void Encriptador::iniciarProceso()
 	}
 }
 //Funciones privadas----------------------------------------------------
-void Encriptador::generarLlave()
+void Encriptador::generarLlave()                                        //Funcion para generar las llaves que se aplicaran, segun el password ingresado
 {
 	int x=0;
 	int tempA=0;
 	int tamanio=strlen(chrPassword);
 	
-	while(x<tamanio)
+	while(x<tamanio)                                                    //Generacion de primera clave, sumando pareja de valores del password
 	{
 		tempA=tempA+(((int)chrPassword[x])-((int)chrPassword[++x]));
 		++x;
@@ -58,14 +59,14 @@ void Encriptador::generarLlave()
 	int y=tamanio;
 	int mitad=tamanio/2;
 	
-	while(x<=mitad)
+	while(x<=mitad)                                                     //Generacion de segunda clave, sumando extremos del password
 	{
 		tempB=tempB+(chrPassword[x]-chrPassword[tamanio]);
 		++x;
 		--tamanio;
 	}
 	
-	agregarLlave(fabs(tempA));
+	agregarLlave(fabs(tempA));                                          //Agregando claves a la lista enlazada
 	agregarLlave(fabs(tempB));
 	agregarLlave(fabs(tempA)+fabs(tempB));
 	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
@@ -73,8 +74,8 @@ void Encriptador::generarLlave()
 	llaves=inicioLlaves;
 	temporalLlaves=inicioLlaves;
 	
-	while(llaves->siguiente!=temporalLlaves)
-	{
+	while(llaves->siguiente!=temporalLlaves)                            //Asegurandose de que las claves generadas no son mayores, al limite positivo del
+	{                                                                   //diccionario
 		while(llaves->intLlave>intLimitePositivo)
 		{
 			llaves->intLlave=llaves->intLlave-llaves->intLlave;
@@ -84,9 +85,9 @@ void Encriptador::generarLlave()
 	}
 }
 
-void Encriptador::agregarLlave(int elemento)
-{
-	llaves=new struct llave;
+void Encriptador::agregarLlave(int elemento)                            //Funcion que recibe un paramatro, que es una clave, para agregarle en su
+{                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
+	llaves=new struct llave;                                            //lista dinamica
 	llaves->intLlave=elemento;
 	
 	if(temporalLlaves==NULL)

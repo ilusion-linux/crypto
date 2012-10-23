@@ -103,10 +103,11 @@ void Buscador::imprimirIgnorados()
 //Funciones privadas----------------------------------------------------
 void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcion que recibe un paramatro, que es una extension, para agregarle en su
 {                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
-	if(ignorados==NULL)                                                 //lista dinamica
+	ignorados=new struct ignorar;                                       //lista dinamica
+	ignorados->extension=ignorado;
+		
+	if(ignorados==NULL)                                                 
 	{
-		ignorados=new struct ignorar;
-		ignorados->extension=ignorado;
 		ignorados->siguiente=NULL;
 		
 		inicioIgnorados=ignorados;
@@ -114,8 +115,6 @@ void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcio
 	}
 	else
 	{	
-		ignorados=new struct ignorar;
-		ignorados->extension=ignorado;
 		ignorados->siguiente=NULL;
 		
 		temporalIgnorados->siguiente=ignorados;
@@ -125,11 +124,12 @@ void Buscador::agregarElementoIgnorado(string ignorado)                 //Funcio
 
 void Buscador::agregarElementoDirectorio(string elemento, int tamanio)  //Funcion que recibe un paramatro, que es una elemento de un directorio, para 
 {                                                                       //agregarle en su repectiva lista enlazada.  Esta funcion gestiona la creacion 
-	if(directorios==NULL)                                               //y enlaze de la lista dinamica
+	directorios=new struct directorio;                                  //y enlaze de la lista dinamica
+	directorios->objeto=elemento;
+	directorios->byteArchivo=tamanio;
+		
+	if(directorios==NULL)                                               
 	{
-		directorios=new struct directorio;
-		directorios->objeto=elemento;
-		directorios->byteArchivo=tamanio;
 		directorios->siguiente=NULL;
 		
 		inicioDirectorios=directorios;
@@ -137,9 +137,6 @@ void Buscador::agregarElementoDirectorio(string elemento, int tamanio)  //Funcio
 	}
 	else
 	{
-		directorios=new struct directorio;
-		directorios->objeto=elemento;
-		directorios->byteArchivo=tamanio;
 		directorios->siguiente=NULL;
 		
 		temporalDirectorios->siguiente=directorios;
@@ -147,7 +144,7 @@ void Buscador::agregarElementoDirectorio(string elemento, int tamanio)  //Funcio
 	}
 }
 
-bool Buscador::extensionUnica(string ignorado)                          //Funcion que recibe un parametro, que esuna extension, para determinar es es una
+bool Buscador::extensionUnica(string ignorado)                          //Funcion que recibe un parametro, que es una extension, para determinar si es una
 {                                                                       //una extension unica, o ya se encuentra en la lista enlazada
 	struct ignorar * auxIgnorados=inicioIgnorados;
 	
