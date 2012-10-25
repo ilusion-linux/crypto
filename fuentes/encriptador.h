@@ -1,14 +1,13 @@
 #ifndef ENCRIPTADOR_H
 #define ENCRIPTADOR_H
 #include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
-#include "buscador.h"
 
 using std::string;
 
 class Encriptador
 {
 	public:
-		Encriptador(char *, struct Buscador::directorio *, int);        //Constructor de la clase
+		Encriptador(char *, void *, int);                               //Constructor de la clase
 		void iniciarProceso();                                          //Funcion para iniciar el trabajo
 		
 	private:

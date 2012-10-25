@@ -58,7 +58,7 @@ void Buscador::descomponer(char * elementos)                            //Funcio
 	}
 }
 
-struct Buscador::directorio * Buscador::darElementos()                  //Funcion que retorna la direccion inicial de la estructura directorio
+void * Buscador::darElementos()                                         //Funcion que retorna la direccion inicial de la estructura directorio
 {
 	return inicioDirectorios;
 }
