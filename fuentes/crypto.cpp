@@ -10,6 +10,7 @@
 #include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "buscador.h"
 #include "encriptador.h"
+#include <pthread.h>
 
 using std::cout;
 using std::endl;

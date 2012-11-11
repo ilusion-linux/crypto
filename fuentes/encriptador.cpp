@@ -3,6 +3,7 @@
 #include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
 #include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "encriptador.h"
+#include "ejecucionsimultanea.h"
 
 using std::cout;
 using std::endl;
@@ -27,82 +28,23 @@ Encriptador::Encriptador(char * pass, void * dir, int operacion)
 	intOperacion=operacion;
 	elementos=(struct directorio *)dir;                                 //Conversin y asignacion de la estructura que contiene los directorios a trabajar
 }
-//Funciones publicas----------------------------------------------------
-void Encriptador::iniciarProceso()                                      //Funcion para iniciar el proceso, ya sea encriptacion y desencriptacion
+//Funciones amigas------------------------------------------------------
+void encriptar(void * parametros[])
 {
-	switch(intOperacion)
-	{
-		case 0:
-			encriptar();
-		break;
-		case 1:
-			desencriptar();
-		break;
-	}
+	struct llaves{int intLlave;struct llaves * siguiente;};               //Para almacenar copia de llaves
+	struct llaves * llaves;
+	
+	llaves=(struct llaves *)parametros[0];
+	string elemento=*((string *)parametros[1]);
+	
+	char chrLectura[1];                                                 //Variable para leer archivo con la funcion read
+	string strLectura="temp/bufferA.crypto";                            //Buffer donde se comprime el archivo, por el momento es estatico
+	ifstream lectura(elemento.c_str(), ios::binary);                    //Archivo de lectura, para leer el elemento a encriptar
+	ofstream escritura(strLectura.c_str(), ios::out);                   //Archivo de escritura, para escribir en el buffer, el contenido encriptado
+	
+	cout<<elemento.c_str()<<endl;
 }
-//Funciones privadas----------------------------------------------------
-void Encriptador::generarLlave()                                        //Funcion para generar las llaves que se aplicaran, segun el password ingresado
-{
-	int x=0;
-	int tempA=0;
-	int tamanio=strlen(chrPassword);
-	
-	while(x<tamanio)                                                    //Generacion de primera clave, sumando pareja de valores del password
-	{
-		tempA=tempA+(((int)chrPassword[x])-((int)chrPassword[++x]));
-		++x;
-	}
-	
-	x=0;
-	int tempB=0;
-	int y=tamanio;
-	int mitad=tamanio/2;
-	
-	while(x<=mitad)                                                     //Generacion de segunda clave, sumando extremos del password
-	{
-		tempB=tempB+(chrPassword[x]-chrPassword[tamanio]);
-		++x;
-		--tamanio;
-	}
-	
-	agregarLlave(fabs(tempA));                                          //Agregando claves a la lista enlazada
-	agregarLlave(fabs(tempB));
-	agregarLlave(fabs(tempA)+fabs(tempB));
-	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
-	
-	llaves=inicioLlaves;
-	temporalLlaves=inicioLlaves;
-	
-	while(llaves->siguiente!=temporalLlaves)                            //Asegurandose de que las claves generadas no son mayores, al limite positivo del
-	{                                                                   //diccionario
-		while(llaves->intLlave>intLimitePositivo)
-		{
-			llaves->intLlave=llaves->intLlave-llaves->intLlave;
-		}
-		
-		llaves=llaves->siguiente;
-	}
-}
-
-void Encriptador::agregarLlave(int elemento)                            //Funcion que recibe un paramatro, que es una clave, para agregarle en su
-{                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
-	llaves=new struct llave;                                            //lista dinamica
-	llaves->intLlave=elemento;
-	
-	if(temporalLlaves==NULL)
-	{
-		inicioLlaves=llaves;
-	}
-	else
-	{
-		temporalLlaves->siguiente=llaves;
-	}
-	
-	llaves->siguiente=inicioLlaves;
-	temporalLlaves=llaves;
-}
-
-void Encriptador::encriptar()                                           //Funcion para manejar la encriptacion de los archivos
+/*void * encriptar(void * lista)                                          //Funcion para manejar la encriptacion de los archivos
 {
 	int intRecorrido=0;                                                 //Variable para controlar los bit recorridos en la secuencia de las llaves
 	llaves=inicioLlaves;                                                
@@ -229,7 +171,7 @@ void Encriptador::encriptar()                                           //Funcio
 	}
 }
 
-void Encriptador::desencriptar()
+void * desencriptar(void * lista)
 {
 	int intRecorrido=0;
 	llaves=inicioLlaves;
@@ -356,12 +298,130 @@ void Encriptador::desencriptar()
 		
 		elementos=elementos->siguiente;
 	}
-}
-
-void Encriptador::leer()
+}*/
+//Funciones publicas----------------------------------------------------
+void Encriptador::iniciarProceso()                                      //Funcion para iniciar el proceso, ya sea encriptacion y desencriptacion
 {
+	/*EjecucionSimultanea ejecutar;
+	cout<<"Id de hilo: "<<ejecutar.darIdThread()<<endl;
+	
+	void *(*ptrFunc)(void*);
+	ptrFunc=leera;
+	ejecutar.ejecutarHilo(ptrFunc);
+	
+	ptrLeer=&Encriptador::leer;
+	ptrLeer=&leera;
+	(this->*ptrLeer)(NULL);
+	
+	typedef void *(*gene)(void *);
+	
+	ejecutar.ejecutarHilo((gene)&ptrLeer);
+	ejecutar.ejecutarHilo(ptrLeer);
+	
+	
+	EjecucionSimultanea ejecutar2;
+	
+	ptrLeer2=&Encriptador::leer;
+	
+	cout<<"Id de hilo: "<<ejecutar2.darIdThread()<<endl;
+	ptrLeer=(gene)&ptrLeer2;
+	ejecutar2.ejecutarHilo(ptrLeer);
+	
+	ejecutar2.ejecutarHilo(leer);*/
+	
+	void * parametro[2];
+	string temp="Hola mundo";
+	parametro[0]=(void *)inicioLlaves;
+	parametro[1]=(void *)&temp;
+	encriptar(parametro);
+	
+	
+	switch(intOperacion)
+	{
+		case 0:
+			/* 
+			 * encriptar();
+			 * */
+		break; 
+		case 1:
+			//desencriptar();
+		break;
+	}
 }
-
-void Encriptador::escribir()
+//Funciones privadas----------------------------------------------------
+void Encriptador::generarLlave()                                        //Funcion para generar las llaves que se aplicaran, segun el password ingresado
 {
+	int x=0;
+	int tempA=0;
+	int tamanio=strlen(chrPassword);
+	
+	while(x<tamanio)                                                    //Generacion de primera clave, sumando pareja de valores del password
+	{
+		tempA=tempA+(((int)chrPassword[x])-((int)chrPassword[++x]));
+		++x;
+	}
+	
+	x=0;
+	int tempB=0;
+	int y=tamanio;
+	int mitad=tamanio/2;
+	
+	while(x<=mitad)                                                     //Generacion de segunda clave, sumando extremos del password
+	{
+		tempB=tempB+(chrPassword[x]-chrPassword[tamanio]);
+		++x;
+		--tamanio;
+	}
+	
+	agregarLlave(fabs(tempA));                                          //Agregando claves a la lista enlazada
+	agregarLlave(fabs(tempB));
+	agregarLlave(fabs(tempA)+fabs(tempB));
+	agregarLlave(fabs(fabs(tempA)-fabs(tempB)));
+	
+	llaves=inicioLlaves;
+	temporalLlaves=inicioLlaves;
+	
+	while(llaves->siguiente!=temporalLlaves)                            //Asegurandose de que las claves generadas no son mayores, al limite positivo del
+	{                                                                   //diccionario
+		while(llaves->intLlave>intLimitePositivo)
+		{
+			llaves->intLlave=llaves->intLlave-llaves->intLlave;
+		}
+		
+		llaves=llaves->siguiente;
+	}
+}
+void Encriptador::agregarLlave(int elemento)                            //Funcion que recibe un paramatro, que es una clave, para agregarle en su
+{                                                                       //repectiva lista enlazada.  Esta funcion gestiona la creacion y enlaze de la
+	llaves=new struct llave;                                            //lista dinamica
+	llaves->intLlave=elemento;
+	
+	if(temporalLlaves==NULL)
+	{
+		inicioLlaves=llaves;
+	}
+	else
+	{
+		temporalLlaves->siguiente=llaves;
+	}
+	
+	llaves->siguiente=inicioLlaves;
+	temporalLlaves=llaves;
+}
+void Encriptador::recorrer(void (*ptrFuncion)(void * parm[]))
+{
+	int intRecorrido=0;
+	llaves=inicioLlaves;
+	int intLlaveBinaria=llaves->intLlave;
+	
+	void * parametro[3];
+	parametro[0]=(void *)inicioLlaves;
+	
+	while(elementos!=NULL)
+	{
+		parametro[1]=(void *)&elementos->objeto;
+		
+		
+		elementos=elementos->siguiente;
+	}
 }
