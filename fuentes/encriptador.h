@@ -1,29 +1,27 @@
 #ifndef ENCRIPTADOR_H
 #define ENCRIPTADOR_H
 #include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
+#include "ejecucionsimultanea.h"
 
 using std::string;
 
 class Encriptador
-{
-	//friend void * encriptar(void *);                                    //Funcion con implementacion logica para encryptar
-	//friend void * desencriptar();                                       //Funcion con implementacion logica para desencryptar
-	
+{	
 	public:
 		Encriptador(char *, void *, int);                               //Constructor de la clase
 		void iniciarProceso();                                          //Funcion para iniciar el trabajo
 		
 	private:
+		EjecucionSimultanea ejecutarA;
+		EjecucionSimultanea ejecutarB;
+		EjecucionSimultanea ejecutarC;
+		EjecucionSimultanea ejecutarD;
+		EjecucionSimultanea ejecutarE;
+		
 		int intOperacion;                                               //Almacena la operacion a ejecutar, 0 encriptar, 1 desencriptar
 		char * chrPassword;                                             //Recibe el password ingresado
-		
-		typedef void *(*ptrFuncion)(void *);                            //Puntero para funcion generica
-		
-		static const int intAjuste;                                     //Variable para ajustar valores que se pasan de los limites
-		static const int intTamanio;                                    //Almacena el tamaño en bytes, de una variable tipo int
-		static const int intComparador;                                 //Variable para comparar bites, contiene la mascara 1000 0000 0000 0000 que corresponde a 1
 		static const int intLimitePositivo;                             //Variable que contiene el limite del diccionario positivio
-		static const int intLimiteNegativo;                             //Variable que contiene el limite del diccionario negativo
+		typedef void *(*ptrGenerica)(void *);                           //Puntero para funcion generica
 					
 		struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{
