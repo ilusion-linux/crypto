@@ -11,36 +11,27 @@ using std::ios;
 using std::ofstream;
 using std::ifstream;
 
-EjecucionSimultanea::EjecucionSimultanea()
+EjecucionSimultanea::EjecucionSimultanea(int id)
 {
 	ocupado=false;
-	idThread=pthread_self();
-}
-//Funciones publicas----------------------------------------------------
-void EjecucionSimultanea::ejecutarHilo(void *(*funcionGenerica)(void *), void * par[])
-{
-	ocupado=true;
-	
-	typedef void *(*ptrGenerica)(void *);                               //Puntero para funcion generica
-	
-	void (*ptrGen)(void * pa[]);
-	ptrGen=&EjecucionSimultanea::encriptar;
-	
-	
-	//pthread_create(&idThread, NULL, (ptrGenerica)ptrGen, (void *)par);
-	//pthread_create(&idThread, NULL, funcionGenerica, (void *)par);
-	//pthread_join(idThread, NULL);
-	
-	ocupado=false;
-}
-pthread_t EjecucionSimultanea::darIdThread()
-{
-	//cout<<idThread.p<<endl;
-	return idThread;
+	intIndice=id;
+	//idThread=new pthread_t();
+	//pthread_self();
 }
 //Funciones privadas----------------------------------------------------
 void EjecucionSimultanea::encriptar(void * parametros[])
 {
+	cout<<"Inicio de encriptacion"<<endl;
+	
+	static const int intTamanio=((sizeof(int)*8)-1);                //Definicion del tamanio de la variable int, segun cada plataforma y sistema operativo
+	static const int intComparador=1<<intTamanio;                   //Asignacion del juego de bits del numero 1 a intComparados  1000 0000 0000 0000
+	static const int intLimitePositivo=127;                         //Definicion de limites para el diccionario positivo
+	static const int intLimiteNegativo=-127;                        //Definicion de limites para el diccionario negativo
+	static const int intAjuste=127;                                 //Ajuste a aplicar para combinacion que pasen los limites de los diccionarios
+	
+	struct llaves{int intLlave;struct llaves * siguiente;};         //Para almacenar copia de llaves
+	struct llaves * llaves;
+	
 	llaves=(struct llaves *)parametros[0];
 	string elemento=*((string *)parametros[1]);
 	int byteArchivo=*((int *)parametros[2]);
@@ -170,6 +161,15 @@ void EjecucionSimultanea::encriptar(void * parametros[])
 }
 void EjecucionSimultanea::desencriptar(void * parametros[])
 {
+	static const int intTamanio=((sizeof(int)*8)-1);                //Definicion del tamanio de la variable int, segun cada plataforma y sistema operativo
+	static const int intComparador=1<<intTamanio;                   //Asignacion del juego de bits del numero 1 a intComparados  1000 0000 0000 0000
+	static const int intLimitePositivo=127;                         //Definicion de limites para el diccionario positivo
+	static const int intLimiteNegativo=-127;                        //Definicion de limites para el diccionario negativo
+	static const int intAjuste=127;                                 //Ajuste a aplicar para combinacion que pasen los limites de los diccionarios
+	
+	struct llaves{int intLlave;struct llaves * siguiente;};         //Para almacenar copia de llaves
+	struct llaves * llaves;
+	
 	llaves=(struct llaves *)parametros[0];
 	string elemento=*((string *)parametros[1]);
 	int byteArchivo=*((int *)parametros[2]);
@@ -294,3 +294,92 @@ void EjecucionSimultanea::desencriptar(void * parametros[])
 		string("\"");
 	system(copy.c_str());
 }
+//Funciones publicas----------------------------------------------------
+void EjecucionSimultanea::ejecutarHilo(void *(*funcionGenerica)(void *), void * par[])
+{
+	ocupado=true;
+	
+	typedef void *(*ptrGenerica)(void *);                               //Puntero para funcion generica
+	
+	void (*ptrGen)(void * pa[]);
+	//ptrGen=&EjecucionSimultanea::encriptar;
+	
+	
+	//pthread_create(&idThread, NULL, (ptrGenerica)ptrGen, (void *)par);
+	//pthread_create(&idThread, NULL, funcionGenerica, (void *)par);
+	//pthread_join(idThread, NULL);
+	
+	ocupado=false;
+}
+void EjecucionSimultanea::ejecutarHilo(void * par[], pthread_t thread)
+{
+	ocupado=true;
+	
+	
+	//void *(*ptrGenerica)(void *);                                     //Puntero para funcion generica
+	
+	//void (*ptrGen)(void * pa[]);
+	
+	//void (EjecucionSimultanea::*ptrFunGen)(void * gen[]); 
+	//ptrFunGen=&EjecucionSimultanea::encriptar;
+	
+	//ptrGenerica=(ptrGen)ptrFunGen;
+	
+	
+	//pthread_create(&idThread, NULL, (ptrGen)encriptar, (void *)par);
+	par[4]=(void *)this;
+	
+	pthread_create(&thread, NULL, (ptrGenerica)ejecutar, (void *)par);
+	
+	//pthread_create(&idThread, NULL, funcionGenerica, (void *)par);
+	pthread_join(thread, NULL);
+	
+	cout<<"--"<<ocupado<<"--"<<endl;
+	
+	//ocupado=false;
+}
+/*pthread_t EjecucionSimultanea::darIdThread()
+{
+	//cout<<idThread.p<<endl;
+	return idThread[intIndice];
+}*/
+void * EjecucionSimultanea::ejecutar(void * param[])
+{
+	//EjecucionSimultanea * ejecucion=((EjecucionSimultanea *)(&param[4]));
+	EjecucionSimultanea * ejecucion=((EjecucionSimultanea *)(param[4]));
+	string aux=*((string *)param[3]);
+	
+	cout<<"Hola Mundo"<<pthread_self()<<endl;//<<ejecucion->darIdThread()<<endl;
+	
+	bool tmp=ejecucion->obtenerEstado();
+	if(tmp==true)
+	{
+		cout<<"True"<<tmp<<endl<<aux<<endl;
+	}
+	else
+	{
+		cout<<"False"<<tmp<<endl<<aux<<endl;
+	}
+	
+	for(int x=0; x<10000; x++)
+	{
+		if((x%100)==0)
+		{
+			cout<<x<<" ";
+		}
+	}
+	cout<<endl;
+	
+	ejecucion->establecerEstado(false);
+	cout<<"Terminando Hilo"<<endl;
+	//pthread_join(pthread_self(), NULL);
+	pthread_exit(NULL);
+}
+void EjecucionSimultanea::establecerEstado(bool valor)
+{
+	ocupado=valor;
+}
+bool EjecucionSimultanea::obtenerEstado()
+{
+	return ocupado;
+}	

@@ -5,26 +5,34 @@
 class EjecucionSimultanea
 {
 	public:
-		bool ocupado;
 		
-		EjecucionSimultanea();
+		
+		EjecucionSimultanea(int);
 		void ejecutarHilo(void *(*funcionGenercia)(void *), void * par[]);
-		void ejecutarHilo(void * par[]);
-		pthread_t darIdThread();
+		void ejecutarHilo(void * par[], pthread_t);
+		
+		void establecerEstado(bool);
+		bool obtenerEstado();
+		//pthread_t darIdThread();
 		
 	private:
-		const int intTamanio=((sizeof(int)*8)-1);                       //Definicion del tamanio de la variable int, segun cada plataforma y sistema operativo
-		const int intComparador=1<<intTamanio;                          //Asignacion del juego de bits del numero 1 a intComparados  1000 0000 0000 0000
-		const int intLimitePositivo=127;                                //Definicion de limites para el diccionario positivo
-		const int intLimiteNegativo=-127;                               //Definicion de limites para el diccionario negativo
-		const int intAjuste=127;                                        //Ajuste a aplicar para combinacion que pasen los limites de los diccionarios
 		
-		pthread_t idThread;
+		//typedef void (*ptrGenerica)(void * []);                           //Puntero para funcion generica
+		//typedef void *(*ptrGenerica)(void *);                           //Puntero para funcion generica
+		                                   //Puntero para funcion generica
+		//ptrGenerica ptrFunGen;                                          //Puntero para funcion generica
+		
+		int intIndice;
+		bool ocupado;
+		
+		typedef void * (*ptrGenerica)(void *);                          //Puntero para funcion generica
+		
+		
 		
 		void encriptar(void * parametros[]);
 		void desencriptar(void * parametros[]);
 		
-		struct llaves{int intLlave;struct llaves * siguiente;};         //Para almacenar copia de llaves
-		struct llaves * llaves;
+		static void * ejecutar(void * []);
+		
 };
 #endif
