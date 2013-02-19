@@ -421,10 +421,14 @@ void Encriptador::recorrer()
 	llaves=inicioLlaves;
 	int intLlaveBinaria=llaves->intLlave;
 	
-	void * parametro[5];
-	parametro[0]=(void *)inicioLlaves;
+	void * parametroA[5];
+	void * parametroB[5];
 	
-	string buffer;
+	string bufferA;
+	string bufferB;
+	
+	struct directorio temporalA;
+	struct directorio temporalB;
 	
 	cout<<"Inicio Prcoeso"<<endl;
 	
@@ -436,35 +440,46 @@ void Encriptador::recorrer()
 		if(ejecutarA.obtenerEstado()==false)
 		{
 			cout<<"Inicio hilo A"<<endl;
-			buffer="temp/bufferA";
+			bufferA="temp/bufferA";
 			
-			parametro[1]=(void *)&elementos->objeto;
-			parametro[2]=(void *)&elementos->byteArchivo;
-			parametro[3]=(void *)&buffer;
-			parametro[4]=(void *)&ejecutarA;
+			temporalA.objeto=elementos->objeto;
+			temporalA.byteArchivo=elementos->byteArchivo;
+			
+			parametroA[0]=(void *)inicioLlaves;
+			parametroA[1]=(void *)&temporalA.objeto;
+			parametroA[2]=(void *)&temporalA.byteArchivo;
+			parametroA[3]=(void *)&bufferA;
+			parametroA[4]=(void *)&ejecutarA;
+			
+			cout<<"   viendo  "<<temporalA.objeto;
 			
 			//ejecutarA.ejecutarHilo(parametro);
-			ejecutarA.ejecutarHilo(parametro, id0);
+			ejecutarA.ejecutarHilo(parametroA, &id0);
 			elementos=elementos->siguiente;
-			cout<<"Fin hilo A"<<endl;
+			cout<<"Fin hilo A   "<<ejecutarA.obtenerEstado()<<endl;
+			
+			cout<<"   revisando  "<<temporalA.objeto;
 		}
 		
 		if(ejecutarB.obtenerEstado()==false)
 		{
-			cout<<"Inicio hilo B"<<endl;
-			buffer="temp/bufferB";
+			//cout<<"Inicio hilo B"<<endl;
+			bufferB="temp/bufferB";
 			
-			parametro[1]=(void *)&elementos->objeto;
-			parametro[2]=(void *)&elementos->byteArchivo;
-			parametro[3]=(void *)&buffer;
-			parametro[4]=(void *)&ejecutarB;
+			temporalB.objeto=elementos->objeto;
+			temporalB.byteArchivo=elementos->byteArchivo;
 			
-			ejecutarB.ejecutarHilo(parametro, id1);
+			parametroB[0]=(void *)inicioLlaves;
+			parametroB[1]=(void *)&temporalB.objeto;
+			parametroB[2]=(void *)&temporalB.byteArchivo;
+			parametroB[3]=(void *)&bufferB;
+			parametroB[4]=(void *)&ejecutarB;
+			
+			
+			ejecutarB.ejecutarHilo(parametroB, &id1);
 			elementos=elementos->siguiente;
-			cout<<"Fin hilo B"<<endl;
+			cout<<"Fin hilo B   "<<ejecutarB.obtenerEstado()<<endl;
 		}
-		
-		
 		
 		
 		/*if(ejecutarC.ocupado==false)
@@ -489,16 +504,34 @@ void Encriptador::recorrer()
 		{
 		}*/
 	}
-	
 	cout<<"Inicio Esperando"<<endl;
 	
 	cout<<ejecutarA.obtenerEstado()<<endl;
 	cout<<ejecutarB.obtenerEstado()<<endl;
 	
-	/*while(ejecutarA.obtenerEstado()==true || ejecutarB.obtenerEstado()==true)
+	/*if(ejecutarA.obtenerEstado()==true)
 	{
-		//cout<<"Esperando"<<endl;
+		cout<<"ppppppp"<<endl;
+		pthread_join(id0, NULL);
+	}
+	
+	if(ejecutarB.obtenerEstado()==true)
+	{
+		cout<<"ddddddd"<<endl;
+		pthread_join(id1, NULL);
 	}*/
+		
+	while(ejecutarA.obtenerEstado()==true || ejecutarB.obtenerEstado()==true)
+	{
+		cout<<"Esperando Bucle"<<endl;
+		cout<<"----"<<ejecutarA.obtenerEstado()<<endl;
+		cout<<"----"<<ejecutarB.obtenerEstado()<<endl;
+		sleep(2);
+	}
+	
 	
 	cout<<"Terminado proceso"<<endl;
+	
+	cout<<ejecutarA.obtenerEstado()<<endl;
+	cout<<ejecutarB.obtenerEstado()<<endl;
 }

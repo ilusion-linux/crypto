@@ -5,11 +5,9 @@
 class EjecucionSimultanea
 {
 	public:
-		
-		
 		EjecucionSimultanea(int);
-		void ejecutarHilo(void *(*funcionGenercia)(void *), void * par[]);
-		void ejecutarHilo(void * par[], pthread_t);
+		//void ejecutarHilo(void *(*funcionGenercia)(void *), void * par[]);
+		void ejecutarHilo(void * par[], pthread_t *);
 		
 		void establecerEstado(bool);
 		bool obtenerEstado();

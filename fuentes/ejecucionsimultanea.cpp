@@ -295,7 +295,7 @@ void EjecucionSimultanea::desencriptar(void * parametros[])
 	system(copy.c_str());
 }
 //Funciones publicas----------------------------------------------------
-void EjecucionSimultanea::ejecutarHilo(void *(*funcionGenerica)(void *), void * par[])
+/*void EjecucionSimultanea::ejecutarHilo(void *(*funcionGenerica)(void *), void * par[])
 {
 	ocupado=true;
 	
@@ -310,8 +310,8 @@ void EjecucionSimultanea::ejecutarHilo(void *(*funcionGenerica)(void *), void * 
 	//pthread_join(idThread, NULL);
 	
 	ocupado=false;
-}
-void EjecucionSimultanea::ejecutarHilo(void * par[], pthread_t thread)
+}*/
+void EjecucionSimultanea::ejecutarHilo(void * par[], pthread_t * thread)
 {
 	ocupado=true;
 	
@@ -327,12 +327,12 @@ void EjecucionSimultanea::ejecutarHilo(void * par[], pthread_t thread)
 	
 	
 	//pthread_create(&idThread, NULL, (ptrGen)encriptar, (void *)par);
-	par[4]=(void *)this;
+	//par[4]=this;
 	
-	pthread_create(&thread, NULL, (ptrGenerica)ejecutar, (void *)par);
+	pthread_create(thread, NULL, (ptrGenerica)ejecutar, (void *)par);
 	
 	//pthread_create(&idThread, NULL, funcionGenerica, (void *)par);
-	pthread_join(thread, NULL);
+	//pthread_join(*thread, NULL);
 	
 	cout<<"--"<<ocupado<<"--"<<endl;
 	
@@ -346,35 +346,40 @@ void EjecucionSimultanea::ejecutarHilo(void * par[], pthread_t thread)
 void * EjecucionSimultanea::ejecutar(void * param[])
 {
 	//EjecucionSimultanea * ejecucion=((EjecucionSimultanea *)(&param[4]));
+	//Cuando el segundo thread inicia se reemplaza ejecucion
+	cout<<"Hola Terrestre  "<<"  "<<pthread_self()<<"   ! "<<(*((string *)param[1]))<<"  !  "<<(*((string *)param[3]))<<endl;//<<ejecucion->darIdThread()<<endl;
 	EjecucionSimultanea * ejecucion=((EjecucionSimultanea *)(param[4]));
-	string aux=*((string *)param[3]);
+	string aux=*((string *)param[1]);
 	
-	cout<<"Hola Mundo"<<pthread_self()<<endl;//<<ejecucion->darIdThread()<<endl;
+	cout<<"Hola Tierra  "<<ejecucion->intIndice<<"  "<<pthread_self()<<"   ! "<<(*((string *)param[1]))<<endl;//<<ejecucion->darIdThread()<<endl;
 	
 	bool tmp=ejecucion->obtenerEstado();
 	if(tmp==true)
 	{
-		cout<<"True"<<tmp<<endl<<aux<<endl;
+		cout<<pthread_self()<<"True"<<tmp<<endl<<aux<<endl;
 	}
 	else
 	{
-		cout<<"False"<<tmp<<endl<<aux<<endl;
+		cout<<pthread_self()<<"False"<<tmp<<endl<<aux<<endl;
 	}
 	
 	for(int x=0; x<10000; x++)
 	{
 		if((x%100)==0)
 		{
-			cout<<x<<" ";
+			//cout<<x<<" ";
 		}
 	}
 	cout<<endl;
 	
+	//((EjecucionSimultanea *)(param[4]))->establecerEstado(false);
 	ejecucion->establecerEstado(false);
-	cout<<"Terminando Hilo"<<endl;
 	//pthread_join(pthread_self(), NULL);
-	pthread_exit(NULL);
+	
+	cout<<pthread_self()<<"Confirmando Hilo***"<<ejecucion->obtenerEstado()<<" "<<aux<<endl;
+	//pthread_exit(NULL);
 }
+
 void EjecucionSimultanea::establecerEstado(bool valor)
 {
 	ocupado=valor;
