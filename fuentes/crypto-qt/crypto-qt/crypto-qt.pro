@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-10-26T05:25:53
+# Project created by QtCreator 2013-03-03T21:27:44
 #
 #-------------------------------------------------
 
@@ -13,11 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    dialog.cpp
+        vtnmenuprincipal.cpp
 
-HEADERS  += mainwindow.h \
-    dialog.h
+HEADERS  += vtnmenuprincipal.h
 
-FORMS    += mainwindow.ui \
-    dialog.ui
+FORMS    += vtnmenuprincipal.ui

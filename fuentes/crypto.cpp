@@ -25,6 +25,7 @@ int main(int argC, char * argV[])
 	int intPassword=0;
 	int intExtension=0;
 	int intDirectorio=0;
+	int intSimultaneos=2;
 	char * chrPassword;                                                 //Variable que contiene la contraseña ingresada
 	char * chrRuta;                                                     //Variable que contiene la ruta directorio
 	char * chrExtension;                                                //Variable que contiene extensiones ignoradas
@@ -75,6 +76,10 @@ int main(int argC, char * argV[])
 			{
 				buscador.reiniciarIgnorados();
 			}
+			else if(strcasecmp(argV[x], "s")==0)
+			{
+				intEstado=2;
+			}
 			else if(strcasecmp(argV[x], "i")==0)                        //Opcion para mostrar informacion de las opciones del software
 			{
 				x=argC;
@@ -110,6 +115,25 @@ int main(int argC, char * argV[])
 				*chrAuxiliar=argV[x];
 			}
 		}
+		else if(intEstado==2)
+		{
+			for(int y=0; y<strlen(argV[x]); y++)
+			{
+				if(isdigit(argV[x][y])==0)
+				{
+					intEstado=-1;
+					y=strlen(argV[x]);
+					cout<<"El numero de eventos a ejecutar debe ser un";
+					cout<<" entero"<<endl;
+				}
+			}
+			
+			if(intEstado==2)
+			{
+				intEstado=0;
+				intSimultaneos=atoi(argV[x]);
+			}
+		}
 	}
 	
 	if(intEstado==0)                                                    //Se compara que se encuentre en un estado valido, que se haya asignado su valor
@@ -136,8 +160,8 @@ int main(int argC, char * argV[])
 			if(intOperacion==0 || intOperacion==1)                      //Se procede a encryptar o a desencryptar
 			{
 				Encriptador crypto(chrPassword, buscador.darElementos(),
-					intOperacion);
-				crypto.iniciarProceso();
+					intOperacion, intSimultaneos);
+				crypto.iniciarProceso(intOperacion);
 			}
 			else
 			{

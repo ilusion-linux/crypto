@@ -8,16 +8,18 @@ using std::string;
 class Encriptador
 {	
 	public:
-		Encriptador(char *, void *, int);                               //Constructor de la clase
-		void iniciarProceso();                                          //Funcion para iniciar el trabajo
+		Encriptador(char *, void *, int, int);                          //Constructor de la clase
+		void iniciarProceso(int);                                        //Funcion para iniciar el trabajo
 		
 	private:
-		
-		
 		int intOperacion;                                               //Almacena la operacion a ejecutar, 0 encriptar, 1 desencriptar
+		int intSimultaneo;												//Almacena las operaciones que se pueden ejecutar simultaneamente
 		char * chrPassword;                                             //Recibe el password ingresado
+		void *** parametro;
+		EjecucionSimultanea ** ejecutar;
+		
 		static const int intLimitePositivo;                             //Variable que contiene el limite del diccionario positivio
-		//typedef void *(*ptrGenerica)(void *);                           //Puntero para funcion generica
+		static const int intSimultaneoDefault;						    //Almacena las operaciones por default que se pueden ejecutar simultaneamente
 					
 		struct directorio                                               //Esctructura para almacenar los archivos a cifrar o decifrar
 		{
@@ -38,7 +40,6 @@ class Encriptador
 		
 		void generarLlave();                                            //Funcion para generar la llave segun el password ingresada
 		void agregarLlave(int);                                         //Funcion para agregar elementos a la lista enlazada de claves generadas
-		void recorrer();                        				        //Funcion para recorrer los elementos a operar
-		//void recorrer(void (*prtFunc)(void * []));				        //Funcion para recorrer los elementos a operar
+		void recorrer(int);                        				        //Funcion para recorrer los elementos a operar
 };
 #endif
