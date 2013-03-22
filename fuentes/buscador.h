@@ -1,8 +1,17 @@
 #ifndef BUSCADOR_H
 #define BUSCADOR_H
+#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
+#include <sys/stat.h>                                                   //Biblioteca stat con funciones para obtencion de atributos de directorios y archivos
+#include <dirent.h>                                                     //Biblioteca con funciones para manejo de directorios
 #include <cstring>                                                      //Biblioteca cstring para funciones de manejo de cadenas
+#include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
 
 using std::string;
+using std::cout;
+using std::endl;
+using std::ios;
+using std::ofstream;
+using std::ifstream;
 
 class Buscador
 {

@@ -1,14 +1,4 @@
-#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
-#include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
-#include <sys/stat.h>                                                   //Biblioteca stat con funciones para obtencion de atributos de directorios y archivos
-#include <dirent.h>                                                     //Biblioteca con funciones para manejo de directorios
 #include "buscador.h"
-
-using std::cout;
-using std::endl;
-using std::ios;
-using std::ofstream;
-using std::ifstream;
 
 Buscador::Buscador()                                                    //Inicializacion de estructuras en NULL
 {

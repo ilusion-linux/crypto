@@ -1,14 +1,4 @@
-#include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
-#include <cmath>                                                        //Biblioteca cmath para funciones matematicas
-#include <fstream>                                                      //Biblioteca fstream para funciones de lectura y escritura de archivos
-#include <cstdlib>                                                      //Biblioteca cstdlib para funciones de llamadas al sistema operativo
 #include "encriptador.h"
-
-using std::cout;
-using std::endl;
-using std::ios;
-using std::ofstream;
-using std::ifstream;
 
 const int Encriptador::intLimitePositivo=127;
 const int Encriptador::intSimultaneoDefault=2;
@@ -36,15 +26,6 @@ Encriptador::Encriptador(char * pass, void * dir, int operacion,
 void Encriptador::iniciarProceso(int intOperacion)                      //Funcion para iniciar el proceso, ya sea encriptacion y desencriptacion
 {
 	recorrer(intOperacion);
-	/*switch(intOperacion)
-	{
-		case 0:
-			recorrer();
-		break; 
-		case 1:
-			recorrer();
-		break;
-	}*/
 }
 //Funciones privadas----------------------------------------------------
 void Encriptador::generarLlave()                                        //Funcion para generar las llaves que se aplicaran, segun el password ingresado
@@ -108,6 +89,8 @@ void Encriptador::agregarLlave(int elemento)                            //Funcio
 }
 void Encriptador::recorrer(int intOperacion)
 {
+	int intOperaciones[intSimultaneo];
+	int bolEstados[intSimultaneo];
 	string buffer[intSimultaneo];
 	struct directorio temporal[intSimultaneo];
 	
@@ -116,9 +99,12 @@ void Encriptador::recorrer(int intOperacion)
 	
 	for(int x=0; x<intSimultaneo; x++)
 	{
-		parametro[x]=new void * [5];
+		parametro[x]=new void * [7];
 		
 		ejecutar[x]=new EjecucionSimultanea(intOperacion);
+		
+		intOperaciones[x]=intOperacion;
+		bolEstados[x]=false;
 	}
 	
 	int intRecorrido=0;	
@@ -127,9 +113,12 @@ void Encriptador::recorrer(int intOperacion)
 		
 	while(elementos!=NULL)
 	{
-		if(ejecutar[intRecorrido]->obtenerEstado()==false)
+		if(bolEstados[intRecorrido]==false)
 		{
+			ejecutar[intRecorrido]=new EjecucionSimultanea(intOperacion);
+			
 			buffer[intRecorrido]="temp/buffer";
+			buffer[intRecorrido]+=funcion.toString<int>(intRecorrido);
 			
 			temporal[intRecorrido].objeto=elementos->objeto;
 			temporal[intRecorrido].byteArchivo=elementos->byteArchivo;
@@ -139,72 +128,31 @@ void Encriptador::recorrer(int intOperacion)
 			parametro[intRecorrido][2]=(void *)&temporal[intRecorrido].byteArchivo;
 			parametro[intRecorrido][3]=(void *)&buffer[intRecorrido];
 			parametro[intRecorrido][4]=(void *)&ejecutar[intRecorrido];
+			parametro[intRecorrido][5]=(void *)&intOperaciones[intRecorrido];
+			parametro[intRecorrido][6]=(void *)&bolEstados[intRecorrido];
 			
+			bolEstados[intRecorrido]=true;
 			ejecutar[intRecorrido]->ejecutarHilo(parametro[intRecorrido]);
+			
 			elementos=elementos->siguiente;
-			
-			++intRecorrido;
-			
-			if(intRecorrido==intSimultaneo)
-			{
-				intRecorrido=0;
-			}
+		}
+		
+		++intRecorrido;
+		if(intRecorrido==intSimultaneo)
+		{
+			intRecorrido=0;
 		}
 	}
-	/*EjecucionSimultanea ejecutarA(0);
-	EjecucionSimultanea ejecutarB(0);
-	EjecucionSimultanea ejecutarC(0);
-	EjecucionSimultanea ejecutarD(0);
-	EjecucionSimultanea ejecutarE(0);
-		
-	int intRecorrido=0;
-	llaves=inicioLlaves;
-	int intLlaveBinaria=llaves->intLlave;
 	
-	void * parametroA[5];
-	void * parametroB[5];
+	intRecorrido=0;
 	
-	string bufferA;
-	string bufferB;
-	
-	struct directorio temporalA;
-	struct directorio temporalB;
-	*/
-	/*
-	while(elementos!=NULL)
+	while(intRecorrido<intSimultaneo)
 	{
-		if(ejecutarA.obtenerEstado()==false)
+		while(bolEstados[intRecorrido]==true)
 		{
-			bufferA="temp/bufferA";
-			
-			temporalA.objeto=elementos->objeto;
-			temporalA.byteArchivo=elementos->byteArchivo;
-			
-			parametroA[0]=(void *)inicioLlaves;
-			parametroA[1]=(void *)&temporalA.objeto;
-			parametroA[2]=(void *)&temporalA.byteArchivo;
-			parametroA[3]=(void *)&bufferA;
-			parametroA[4]=(void *)&ejecutarA;
-			
-			ejecutarA.ejecutarHilo(parametroA);
-			elementos=elementos->siguiente;
+			sleep(1);
 		}
 		
-		if(ejecutarB.obtenerEstado()==false)
-		{
-			bufferB="temp/bufferB";
-			
-			temporalB.objeto=elementos->objeto;
-			temporalB.byteArchivo=elementos->byteArchivo;
-			
-			parametroB[0]=(void *)inicioLlaves;
-			parametroB[1]=(void *)&temporalB.objeto;
-			parametroB[2]=(void *)&temporalB.byteArchivo;
-			parametroB[3]=(void *)&bufferB;
-			parametroB[4]=(void *)&ejecutarB;
-			
-			ejecutarB.ejecutarHilo(parametroB);
-			elementos=elementos->siguiente;
-		}
-	}*/
+		++intRecorrido;
+	}
 }
