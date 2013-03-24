@@ -39,8 +39,9 @@ char * Funciones::toCadena(int intEntero)
 	int intMayor=1;
 	int intInicio=1;
 	int intContador=1;
-	char * strRetorno;
-	          
+	char * strRetorno=new char[1];
+	strRetorno[0]='0';
+	
 	while(intEntero>=intMayor)
 	{
 		intMayor*=intMultiplo;

@@ -15,7 +15,7 @@ class Funciones
 		{
 			T intInicio=1;
 			T intMayor=1;
-			string strRetorno="";
+			string strRetorno="0";
 					  
 			while(intEntero>=intMayor)
 			{

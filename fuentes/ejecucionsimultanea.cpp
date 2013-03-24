@@ -6,9 +6,8 @@ const int EjecucionSimultanea::intLimitePositivo=127;            		//Definicion 
 const int EjecucionSimultanea::intLimiteNegativo=-127;           		//Definicion de limites para el diccionario negativo
 const int EjecucionSimultanea::intAjuste=127;                    		//Ajuste a aplicar para combinacion que pasen los limites de los diccionarios
 
-EjecucionSimultanea::EjecucionSimultanea(int operacion)
+EjecucionSimultanea::EjecucionSimultanea()
 {
-	intOperacion=operacion;
 }
 //Funciones publicas----------------------------------------------------
 void EjecucionSimultanea::ejecutarHilo(void * par[])
@@ -81,7 +80,7 @@ void EjecucionSimultanea::iniciar(void * parametros[])
 	lectura.close();
 	escritura.close();
 	
-	string copy=string("cp \"")+strLectura+string("\" \"")+elemento+
+	string copy=string("mv \"")+strLectura+string("\" \"")+elemento+
 		string("\"");
 	system(copy.c_str());
 	

@@ -1,5 +1,6 @@
 #ifndef ENCRIPTADOR_H
 #define ENCRIPTADOR_H
+
 #include <iostream>                                                     //Biblioteca iostream para funciones de entrada y salida estandard
 #include <cmath>                                                        //Biblioteca cmath para funciones matematicas
 #include "ejecucionsimultanea.h"
@@ -9,17 +10,17 @@ class Encriptador
 {	
 	public:
 		Encriptador(char *, void *, int, int);                          //Constructor de la clase
-		void iniciarProceso(int);                                        //Funcion para iniciar el trabajo
+		void iniciarProceso(int);                                       //Funcion para iniciar el trabajo
 		
 	private:
 		int intOperacion;                                               //Almacena la operacion a ejecutar, 0 encriptar, 1 desencriptar
 		int intSimultaneo;												//Almacena las operaciones que se pueden ejecutar simultaneamente
 		char * chrPassword;                                             //Recibe el password ingresado
 		
-		void *** parametro;
-		EjecucionSimultanea ** ejecutar;
+		void *** parametro;												//Almacena las diferentes variables que se enviaran al ejecutador
+		EjecucionSimultanea ** ejecutar;								//Objeto para procesar la encriptacion o desencriptacion
 		
-		Funciones funcion;
+		Funciones funcion;                                              //Objeto con funciones utiles para conversiones
 		
 		static const int intLimitePositivo;                             //Variable que contiene el limite del diccionario positivio
 		static const int intSimultaneoDefault;						    //Almacena las operaciones por default que se pueden ejecutar simultaneamente

@@ -5,6 +5,8 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setStyle("Plastique");
+
     QApplication a(argc, argv);
     VtnMenuPrincipal menuPrincipal;
 

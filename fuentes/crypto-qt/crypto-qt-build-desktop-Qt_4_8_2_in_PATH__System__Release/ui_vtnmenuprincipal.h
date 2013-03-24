@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'vtnmenuprincipal.ui'
 **
-** Created: Tue Mar 19 20:57:41 2013
+** Created: Fri Mar 22 15:05:43 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -100,7 +100,7 @@ public:
         label_2->setFont(font1);
         lineEdit = new QLineEdit(groupBox);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(190, 50, 113, 25));
+        lineEdit->setGeometry(QRect(190, 60, 113, 25));
         lineEdit->setFont(font1);
         lineEdit->setInputMethodHints(Qt::ImhNone);
         lineEdit->setEchoMode(QLineEdit::Normal);
