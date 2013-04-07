@@ -53,6 +53,11 @@ void * Buscador::darElementos()                                         //Funcio
 	return inicioDirectorios;
 }
 
+void * Buscador::darIgnorados()
+{
+	return inicioIgnorados;
+}
+
 void Buscador::leerIgnorados()                                          //Funcion para obtener el listado de extensiones guardadas en el archivo
 {                                                                       //ignorados.crypto
 	ifstream archivoIgnorados("ignorados.crypto", ios::in);             

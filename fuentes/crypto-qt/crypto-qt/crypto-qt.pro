@@ -13,8 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        vtnmenuprincipal.cpp
+        vtnmenuprincipal.cpp \
+    informacion.cpp \
+    verextenciones.cpp \
+    ../../buscador.cpp \
+    ayuda.cpp
 
-HEADERS  += vtnmenuprincipal.h
+HEADERS  += vtnmenuprincipal.h \
+    informacion.h \
+    verextenciones.h \
+    ../../buscador.h \
+    ayuda.h
 
-FORMS    += vtnmenuprincipal.ui
+FORMS    += vtnmenuprincipal.ui \
+    informacion.ui \
+    verextenciones.ui \
+    ayuda.ui
+
+RESOURCES += \
+    imagenes/imagenes-crypto.qrc
+
+OTHER_FILES +=

@@ -23,6 +23,7 @@ class Buscador
 		void reiniciarIgnorados();                                      //Funcion para reiniciar el listado de extensiones ignoradas
 		void descomponer(char *);                                       //Funcion para buscar recursivamente los documentos listados dentro algun directorio indicado
 		void * darElementos();                                          //Funcion para obtener los elementos a trabajar
+		void * darIgnorados();											//Funcion para obtener los elementos a ignorar
 		
 	private:
 		struct ignorar                                                  //Estructura para almacenar el listado de extensones guardadas que seran ignoradas

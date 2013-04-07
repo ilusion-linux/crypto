@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/imagenes">
+        <file>informacion.png</file>
+        <file>Directory2.png</file>
+        <file>Directory.png</file>
+        <file>logo.png</file>
+        <file>gpl.png</file>
+        <file>ayuda.png</file>
+    </qresource>
+</RCC>

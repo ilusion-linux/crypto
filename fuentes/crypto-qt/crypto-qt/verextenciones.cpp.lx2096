@@ -1,0 +1,38 @@
+#include "verextenciones.h"
+#include "ui_verextenciones.h"
+
+VerExtenciones::VerExtenciones(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::VerExtenciones)
+{
+    ui->setupUi(this);
+
+    cargarExtenciones();
+}
+
+VerExtenciones::~VerExtenciones()
+{
+    delete ui;
+}
+
+void VerExtenciones::cargarExtenciones()
+{
+    extenciones.leerIgnorados();
+
+    ignorados=(struct ignorar *)extenciones.darIgnorados();
+
+    while(ignorados!=NULL)
+    {
+        ui->lstExtenciones->addItem(ignorados->extension.c_str());
+
+        ignorados=ignorados->siguiente;
+    }
+}
+
+void VerExtenciones::agregarExtencion()
+{
+    extenciones.agregarElementoIgnorado(ui->txtExtencion->text().toStdString().c_str());
+
+    ui->lstExtenciones->clear();
+    cargarExtenciones();
+}

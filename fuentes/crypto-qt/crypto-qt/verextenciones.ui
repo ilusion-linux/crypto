@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VerExtenciones</class>
+ <widget class="QDialog" name="VerExtenciones">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>391</width>
+    <height>282</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Manejo de Extenciones</string>
+  </property>
+  <widget class="QListWidget" name="lstExtenciones">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>371</width>
+     <height>221</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtExtencion">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>113</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>240</y>
+     <width>121</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Agregar </string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>240</y>
+     <width>111</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Resetear </string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VerExtenciones</receiver>
+   <slot>agregarExtencion()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>70</x>
+     <y>276</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>agregarExtencion()</slot>
+ </slots>
+</ui>

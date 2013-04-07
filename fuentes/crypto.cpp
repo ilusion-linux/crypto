@@ -76,7 +76,7 @@ int main(int argC, char * argV[])
 			{
 				buscador.reiniciarIgnorados();
 			}
-			else if(strcasecmp(argV[x], "s")==0)
+			else if(strcasecmp(argV[x], "s")==0)                        //Opciones para estableces los hilos simultaneos que se ejecutaran
 			{
 				intEstado=2;
 			}
