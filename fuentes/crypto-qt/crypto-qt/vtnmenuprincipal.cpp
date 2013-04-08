@@ -37,6 +37,20 @@ void VtnMenuPrincipal::abrirAyuda()
     ayuda->showMaximized();
 }
 
+void VtnMenuPrincipal::limpiar()
+{
+    ui->rdbIgnorar->setChecked(false);
+    ui->txtSimultaneos->setText("");
+    ui->txtPassword->setText("");
+
+    ui->txtDirectorioA->setText("");
+    ui->txtDirectorioB->setText("");
+    ui->txtDirectorioC->setText("");
+    ui->txtDirectorioD->setText("");
+    ui->txtDirectorioE->setText("");
+    ui->txtDirectorioF->setText("");
+}
+
 void VtnMenuPrincipal::seleccionarRuta()
 {
     QPushButton * objeto=(QPushButton *)sender();
@@ -109,8 +123,6 @@ void VtnMenuPrincipal::verExtenciones()
 }
 void VtnMenuPrincipal::ejecutar()
 {
-    ui->txtEstado->showMessage("Iniciando proceso ...");
-
     QMessageBox mensaje(this);
     mensaje.setWindowTitle("Error");
     mensaje.setIcon(QMessageBox::Critical);
@@ -129,6 +141,8 @@ void VtnMenuPrincipal::ejecutar()
     }
     else
     {
+        ui->txtEstado->showMessage("Iniciando proceso ...");
+
         string strDirectorio[6];
         strDirectorio[0]=ui->txtDirectorioA->text().toStdString();
         strDirectorio[1]=ui->txtDirectorioB->text().toStdString();

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'vtnmenuprincipal.ui'
 **
-** Created: Sun Apr 7 17:11:15 2013
+** Created: Mon Apr 8 15:12:32 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -54,7 +54,8 @@ public:
     QPushButton *btnEncriptar;
     QPushButton *btnDesencriptar;
     QPushButton *btnInformacion;
-    QPushButton *btnInformacion_2;
+    QPushButton *btnAyuda;
+    QPushButton *btnLimpiar;
     QStatusBar *txtEstado;
 
     void setupUi(QMainWindow *VtnMenuPrincipal)
@@ -82,6 +83,7 @@ public:
         QFont font1;
         font1.setPointSize(11);
         rdbIgnorar->setFont(font1);
+        rdbIgnorar->setChecked(false);
         btnExtenciones = new QPushButton(groupBox);
         btnExtenciones->setObjectName(QString::fromUtf8("btnExtenciones"));
         btnExtenciones->setGeometry(QRect(20, 53, 161, 29));
@@ -181,14 +183,22 @@ public:
         btnInformacion->setIcon(icon1);
         btnInformacion->setIconSize(QSize(32, 32));
         btnInformacion->setFlat(false);
-        btnInformacion_2 = new QPushButton(centralWidget);
-        btnInformacion_2->setObjectName(QString::fromUtf8("btnInformacion_2"));
-        btnInformacion_2->setGeometry(QRect(510, 120, 31, 31));
+        btnAyuda = new QPushButton(centralWidget);
+        btnAyuda->setObjectName(QString::fromUtf8("btnAyuda"));
+        btnAyuda->setGeometry(QRect(510, 120, 31, 31));
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/imagenes/ayuda.png"), QSize(), QIcon::Normal, QIcon::Off);
-        btnInformacion_2->setIcon(icon2);
-        btnInformacion_2->setIconSize(QSize(32, 32));
-        btnInformacion_2->setFlat(false);
+        btnAyuda->setIcon(icon2);
+        btnAyuda->setIconSize(QSize(32, 32));
+        btnAyuda->setFlat(false);
+        btnLimpiar = new QPushButton(centralWidget);
+        btnLimpiar->setObjectName(QString::fromUtf8("btnLimpiar"));
+        btnLimpiar->setGeometry(QRect(470, 120, 31, 31));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/imagenes/limpiar.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnLimpiar->setIcon(icon3);
+        btnLimpiar->setIconSize(QSize(32, 32));
+        btnLimpiar->setFlat(false);
         VtnMenuPrincipal->setCentralWidget(centralWidget);
         txtEstado = new QStatusBar(VtnMenuPrincipal);
         txtEstado->setObjectName(QString::fromUtf8("txtEstado"));
@@ -267,7 +277,8 @@ public:
         QObject::connect(btnExtenciones, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(verExtenciones()));
         QObject::connect(btnEncriptar, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(ejecutar()));
         QObject::connect(btnDesencriptar, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(ejecutar()));
-        QObject::connect(btnInformacion_2, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(abrirAyuda()));
+        QObject::connect(btnAyuda, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(abrirAyuda()));
+        QObject::connect(btnLimpiar, SIGNAL(clicked()), VtnMenuPrincipal, SLOT(limpiar()));
 
         QMetaObject::connectSlotsByName(VtnMenuPrincipal);
     } // setupUi
@@ -291,7 +302,8 @@ public:
         btnEncriptar->setText(QApplication::translate("VtnMenuPrincipal", "Encriptar", 0, QApplication::UnicodeUTF8));
         btnDesencriptar->setText(QApplication::translate("VtnMenuPrincipal", "Desencriptar", 0, QApplication::UnicodeUTF8));
         btnInformacion->setText(QString());
-        btnInformacion_2->setText(QString());
+        btnAyuda->setText(QString());
+        btnLimpiar->setText(QString());
     } // retranslateUi
 
 };

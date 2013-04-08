@@ -158,7 +158,7 @@ bool Buscador::extensionUnica(string ignorado)                          //Funcio
 
 bool Buscador::extensionValida(string obj)                              //Funcion que recibe un parametro, que es un elemento del directorio a trabajar
 {                                                                       //para determinar que este elemento no contenga una extension de las agregadas
-	int iPunto=obj.find_last_of(".");                                   //como extensiones a ignorar
+    int iPunto=obj.find_last_of(".");                                   //como extensiones a ignorar
 	
 	if(iPunto!=string::npos)
 	{
@@ -169,7 +169,7 @@ bool Buscador::extensionValida(string obj)                              //Funcio
 }
 
 void Buscador::obtenerDirectorio(string path)                           //Funcion que recibe un parametro, que es un directorio, y se determinaran todos
-{                                                                       //los elementos de ese directorio
+{ 
 	DIR * dir=opendir(path.c_str());                                    //Se abre el directorio recibido
 	
 	if(dir)                                                             //Si dir se abrio correctamente
@@ -208,6 +208,19 @@ void Buscador::obtenerDirectorio(string path)                           //Funcio
 	}
 	else
 	{
-		cout<<"Directorio "<<path<<" es un invalido"<<endl;
+		struct stat atributos;                                  		//Se crea una estructura tipo stat, para contener informacion sobre cada elemento;                                   			//Unimos el directorio con el nombre del elemento, para obtener direcciones completas
+	
+		if(stat(path.c_str(), &atributos)==0)                    		//Con la funcion stat se obtienen los atributos del elemento del directorio listado
+		{
+			if(extensionValida(path)==true)
+			{
+				int numero=atributos.st_size;
+				agregarElementoDirectorio(path, numero);
+			}
+		}
+		else
+		{
+			cout<<"Directorio "<<path<<" es un invalido"<<endl;
+		}
 	}
 }

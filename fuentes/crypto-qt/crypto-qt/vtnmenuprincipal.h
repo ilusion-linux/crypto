@@ -24,6 +24,7 @@ private slots:
     void verExtenciones();
     void ejecutar();
     void abrirAyuda();
+    void limpiar();
 
 private:
     Ui::VtnMenuPrincipal *ui;

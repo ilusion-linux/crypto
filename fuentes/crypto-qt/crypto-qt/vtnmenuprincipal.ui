@@ -68,6 +68,9 @@
      <property name="text">
       <string>Ignorar extenciones</string>
      </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="btnExtenciones">
      <property name="geometry">
@@ -442,7 +445,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnInformacion_2">
+   <widget class="QPushButton" name="btnAyuda">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -457,6 +460,32 @@
     <property name="icon">
      <iconset resource="imagenes/imagenes-crypto.qrc">
       <normaloff>:/imagenes/ayuda.png</normaloff>:/imagenes/ayuda.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnLimpiar">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>120</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="imagenes/imagenes-crypto.qrc">
+      <normaloff>:/imagenes/limpiar.png</normaloff>:/imagenes/limpiar.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1059,7 +1088,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>btnInformacion_2</sender>
+   <sender>btnAyuda</sender>
    <signal>clicked()</signal>
    <receiver>VtnMenuPrincipal</receiver>
    <slot>abrirAyuda()</slot>
@@ -1074,6 +1103,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnLimpiar</sender>
+   <signal>clicked()</signal>
+   <receiver>VtnMenuPrincipal</receiver>
+   <slot>limpiar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>487</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>430</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>abrirInformacion()</slot>
@@ -1081,5 +1126,6 @@
   <slot>verExtenciones()</slot>
   <slot>ejecutar()</slot>
   <slot>abrirAyuda()</slot>
+  <slot>limpiar()</slot>
  </slots>
 </ui>

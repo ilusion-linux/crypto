@@ -6,5 +6,6 @@
         <file>logo.png</file>
         <file>gpl.png</file>
         <file>ayuda.png</file>
+        <file>limpiar.png</file>
     </qresource>
 </RCC>

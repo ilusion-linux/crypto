@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ayuda.h'
 **
-** Created: Sun Apr 7 17:06:13 2013
+** Created: Mon Apr 8 15:12:42 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!
